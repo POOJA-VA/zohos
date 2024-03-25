@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:zoho/src/presentation/tabs/Approved.dart';
+import 'package:zoho/src/presentation/tabs/Pending.dart';
+import 'package:zoho/src/presentation/tabs/Rejected.dart';
 import 'package:zoho/src/presentation/views/User/Regularisation.dart';
-import 'package:zoho/tabs/Approved.dart';
-import 'package:zoho/tabs/Pending.dart';
-import 'package:zoho/tabs/Rejected.dart';
-
 class Approvals extends StatefulWidget {
   const Approvals({super.key});
 

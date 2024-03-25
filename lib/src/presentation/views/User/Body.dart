@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
-import 'package:zoho/src/presentation/SQLite/sqlite.dart';
+import 'package:zoho/src/data/datasource/sqlite.dart';
+import 'package:zoho/src/presentation/views/User/login.dart';
 
 class CheckInProvider extends ChangeNotifier {
   late Timer _timer;
@@ -58,25 +59,24 @@ class CheckInProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-Future<void> _saveCheckInOut() async {
-  final DateFormat formatter = DateFormat('HH:mm:ss');
-  final String formattedCheckInTime = formatter.format(_checkInTime!);
-  final String formattedCheckOutTime = formatter.format(_checkOutTime!);
-  final String formattedDate = DateFormat('EEEE, dd MMMM').format(_checkInTime!);
-  final int? id ;
+  Future<void> _saveCheckInOut() async {
+    final DateFormat formatter = DateFormat('HH:mm:ss');
+    final String formattedCheckInTime = formatter.format(_checkInTime!);
+    final String formattedCheckOutTime = formatter.format(_checkOutTime!);
+    final String formattedDate =
+        DateFormat('EEEE, dd MMMM').format(_checkInTime!);
 
-  final Map<String, dynamic> data = {
-    'title': formattedDate,
-    'checkin': formattedCheckInTime,
-    'checkout': formattedCheckOutTime,
-    'hours': _calculateHours(_checkInTime!, _checkOutTime!),
-  };
-  
-  await _databaseHelper.insertReport(data);
-  _checkInOutList = await _databaseHelper.getReports();
-  notifyListeners();
-}
+    final Map<String, dynamic> data = {
+      'title': formattedDate,
+      'checkin': formattedCheckInTime,
+      'checkout': formattedCheckOutTime,
+      'hours': _calculateHours(_checkInTime!, _checkOutTime!),
+    };
 
+    await _databaseHelper.insertReport(data);
+    _checkInOutList = await _databaseHelper.getReports();
+    notifyListeners();
+  }
 
   String _calculateHours(DateTime checkInTime, DateTime checkOutTime) {
     final Duration difference = checkOutTime.difference(checkInTime);
@@ -182,6 +182,16 @@ class Body extends StatelessWidget {
                                     context); // Close the bottom sheet
                               },
                             ),
+                            ElevatedButton(
+                              child: Text('Log Out'),
+                              onPressed: () {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => LoginScreen()),
+                                );
+                              },
+                            ),
                           ],
                         ),
                       ),
@@ -224,8 +234,8 @@ class Body extends StatelessWidget {
                             Container(
                               decoration: BoxDecoration(
                                 border: Border.all(
-                                  color: Colors.blue, // Set border color here
-                                  width: 2, // Set border width here
+                                  color: Colors.blue,
+                                  width: 2,
                                 ),
                               ),
                               child: Container(
@@ -247,8 +257,8 @@ class Body extends StatelessWidget {
                             Container(
                               decoration: BoxDecoration(
                                 border: Border.all(
-                                  color: Colors.blue, // Set border color here
-                                  width: 2, // Set border width here
+                                  color: Colors.blue,
+                                  width: 2,
                                 ),
                               ),
                               child: Container(
@@ -270,8 +280,8 @@ class Body extends StatelessWidget {
                             Container(
                               decoration: BoxDecoration(
                                 border: Border.all(
-                                  color: Colors.blue, // Set border color here
-                                  width: 2, // Set border width here
+                                  color: Colors.blue,
+                                  width: 2,
                                 ),
                               ),
                               child: Container(

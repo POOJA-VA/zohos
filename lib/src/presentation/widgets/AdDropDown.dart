@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 
 const List<String> list = <String>['Pending', 'Rejected', 'Approved'];
 

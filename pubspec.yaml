@@ -44,6 +44,7 @@ dependencies:
   location: ^5.0.3
   permission_handler: ^11.3.0
   sqflite: ^2.3.2
+  http: ^1.2.0
 
 dev_dependencies:
   flutter_test:
@@ -54,7 +55,6 @@ flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
   image_path: "assets/image/zoho.png"
-
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
@@ -72,6 +72,8 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  assets:
+     - assets/location.json
 
   # To add assets to your application, add an assets section, like this:
   # assets:

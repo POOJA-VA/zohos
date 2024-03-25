@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:zoho/src/presentation/widgets/AdDropDown.dart'; // Import the file containing DropdownButtonExample
+import 'package:zoho/src/presentation/views/User/Users.dart';
+import 'package:zoho/src/presentation/widgets/AdDropDown.dart';
 
 class Admin extends StatefulWidget {
   const Admin({Key? key}) : super(key: key);
@@ -10,7 +11,7 @@ class Admin extends StatefulWidget {
 }
 
 class _AdminState extends State<Admin> {
-  String? pendingValue = list.first; // Set initial value to "Pending"
+  String? pendingValue = list.first;
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +94,7 @@ class _AdminState extends State<Admin> {
                           ElevatedButton(
                             child: Text('Close'),
                             onPressed: () {
-                              Navigator.pop(context); // Close the bottom sheet
+                              Navigator.pop(context);
                             },
                           ),
                         ],
@@ -142,7 +143,7 @@ class _AdminState extends State<Admin> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         TextButton(
-                          onPressed: () {}, // No functionality when pressed
+                          onPressed: () {},
                           child: Text(
                             'Approved',
                             style: TextStyle(
@@ -150,7 +151,13 @@ class _AdminState extends State<Admin> {
                           ),
                         ),
                         TextButton(
-                          onPressed: () {}, // No functionality when pressed
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>UserList()),
+                            );
+                          },
                           child: Text(
                             'Rejected',
                             style: TextStyle(
@@ -159,7 +166,6 @@ class _AdminState extends State<Admin> {
                         ),
                       ],
                     ),
-// Use DropdownButtonExample widget here
                   ],
                 ),
               ),

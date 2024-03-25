@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zoho/src/presentation/SQLite/sqlite.dart';
+import 'package:zoho/src/data/datasource/sqlite.dart';
 import 'package:zoho/src/presentation/views/User/Body.dart';
 import 'package:zoho/src/presentation/views/User/login.dart';
 import 'package:provider/provider.dart';
@@ -19,6 +19,8 @@ class MyApp extends StatelessWidget {
       create: (context) => CheckInProvider(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
+      //         localizationsDelegates: AppLocalizations.localizationsDelegates,
+      // locale: Locale("en"),
         home: LoginScreen(),
       ),
     );

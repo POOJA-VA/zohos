@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:zoho/src/presentation/JsonModels/regularization.dart';
-import 'package:zoho/src/presentation/SQLite/sqlite.dart';
+import 'package:zoho/src/data/datasource/sqlite.dart';
+import 'package:zoho/src/domain/Modal/regularization.dart';
 
 class Pending extends StatefulWidget {
   final String selectedDropdownValue;
@@ -86,7 +86,7 @@ class _PendingState extends State<Pending> {
                       ),
                     ),
                     Text(
-                      'Dropdown Value: ${widget.selectedDropdownValue}',
+                      'Dropdown Value: ${regularizationData.dropdownValue}',
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.grey,

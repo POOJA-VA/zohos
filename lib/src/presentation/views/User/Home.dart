@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:zoho/src/presentation/views/User/Approvals.dart';
 import 'package:zoho/src/presentation/views/User/Body.dart';
 import 'package:zoho/src/presentation/views/User/Report.dart';
-//import 'package:zoho/src/presentation/views/User/UserLocation.dart';
+import 'package:zoho/src/presentation/views/User/UserLocation.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -18,7 +18,7 @@ class _HomeState extends State<Home> {
     Body(),
     Report(),
     Approvals(),
-    //LocationPage(),
+    LocationPage(),
   ];
 
   void _onItemTapped(int index) {

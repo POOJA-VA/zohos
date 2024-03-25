@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zoho/src/presentation/SQLite/sqlite.dart';
+import 'package:zoho/src/data/datasource/sqlite.dart';
 import 'package:zoho/src/presentation/barGraph/barGraph.dart';
 
 class Report extends StatefulWidget {
@@ -10,7 +10,6 @@ class Report extends StatefulWidget {
 }
 
 class _ReportState extends State<Report> {
-  late String formattedDate;
   List<double> weeklySummary = [
     00.00,
     90.30,
@@ -21,6 +20,7 @@ class _ReportState extends State<Report> {
     30.10,
   ];
 
+  late String formattedDate;
   late Future<List<Map<String, dynamic>>> _checkInOutListFuture;
   late List<Map<String, dynamic>> _checkInOutList = [];
 

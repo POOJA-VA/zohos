@@ -39,10 +39,8 @@ class RegularizationData {
         hour: int.parse(map['checkInTime'].split(':')[0]),
         minute: int.parse(map['checkInTime'].split(':')[1]),
       );
-      // Use the parsed checkInTime
     } catch (e) {
       print("Error parsing check-in time: $e");
-      // Handle the error gracefully
     }
 
     try {
@@ -50,10 +48,8 @@ class RegularizationData {
         hour: int.parse(map['checkOutTime'].split(':')[0]),
         minute: int.parse(map['checkOutTime'].split(':')[1]),
       );
-      // Use the parsed checkOutTime
     } catch (e) {
       print("Error parsing check-out time: $e");
-      // Handle the error gracefully
     }
 
     return RegularizationData(

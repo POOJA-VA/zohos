@@ -1,19 +1,15 @@
-//In here first we create the users json model
-// To parse this JSON data, do
-//
-
-class Users {
+class Login {
   final int? usrId;
   final String usrName;
   final String usrPassword;
 
-  Users({
+  Login({
     this.usrId,
     required this.usrName,
     required this.usrPassword,
   });
 
-  factory Users.fromMap(Map<String, dynamic> json) => Users(
+  factory Login.fromMap(Map<String, dynamic> json) => Login(
         usrId: json["usrId"],
         usrName: json["usrName"],
         usrPassword: json["usrPassword"],

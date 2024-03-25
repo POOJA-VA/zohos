@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:zoho/src/presentation/JsonModels/users.dart';
-import 'package:zoho/src/presentation/SQLite/sqlite.dart';
+import 'package:zoho/src/data/datasource/sqlite.dart';
+import 'package:zoho/src/domain/Modal/login.dart';
 import 'package:zoho/src/presentation/views/User/Admin.dart';
 import 'package:zoho/src/presentation/views/User/Home.dart';
 import 'package:zoho/src/presentation/views/User/signUp.dart';
@@ -14,51 +14,35 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  //We need two text editing controller
-
-  //TextEditing controller to control the text when we enter into it
   final username = TextEditingController();
   final password = TextEditingController();
-
-  //A bool variable for show and hide password
   bool isVisible = false;
-
-  //Here is our bool variable
   bool isLoginTrue = false;
-
   final db = DatabaseHelper();
+  
+  login() async {
+    if (username.text == "admin@123" && password.text == "123456") {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => Admin()),
+      );
+      return;
+    }
 
-  //Now we should call this function in login button
-login() async {
-  // Check if the username and password match the admin credentials
-  if (username.text == "admin@123" && password.text == "123456") {
-    // Navigate to the admin page
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => Admin()),
-    );
-    return;
+    var response = await db
+        .login(Login(usrName: username.text, usrPassword: password.text));
+    if (response == true) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const Home()),
+      );
+    } else {
+      setState(() {
+        isLoginTrue = true;
+      });
+    }
   }
 
-  // If the username and password do not match admin credentials,
-  // attempt to login as a regular user
-  var response = await db.login(Users(usrName: username.text, usrPassword: password.text));
-  if (response == true) {
-    // If login is correct for a regular user, go to the home page
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const Home()),
-    );
-  } else {
-    // If login fails for both admin and regular users, show error message
-    setState(() {
-      isLoginTrue = true;
-    });
-  }
-}
-
-
-  //We have to create global key for our form
   final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -67,7 +51,6 @@ login() async {
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(10.0),
-            //We put all our textfield to a form to be controlled and not allow as empty
             child: Form(
               key: formKey,
               child: Column(
@@ -84,7 +67,8 @@ login() async {
                         const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
-                        color:Color.fromARGB(255, 130, 131, 229).withOpacity(.2)),
+                        color:
+                            Color.fromARGB(255, 130, 131, 229).withOpacity(.2)),
                     child: TextFormField(
                       controller: username,
                       validator: (value) {
@@ -100,15 +84,14 @@ login() async {
                       ),
                     ),
                   ),
-
-                  //Password field
                   Container(
                     margin: const EdgeInsets.all(8),
                     padding:
                         const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
-                        color: Color.fromARGB(255, 130, 131, 229).withOpacity(.2)),
+                        color:
+                            Color.fromARGB(255, 130, 131, 229).withOpacity(.2)),
                     child: TextFormField(
                       controller: password,
                       validator: (value) {
@@ -124,9 +107,7 @@ login() async {
                           hintText: "Password",
                           suffixIcon: IconButton(
                               onPressed: () {
-                                //In here we will create a click to show and hide the password a toggle button
                                 setState(() {
-                                  //toggle button
                                   isVisible = !isVisible;
                                 });
                               },
@@ -135,9 +116,7 @@ login() async {
                                   : Icons.visibility_off))),
                     ),
                   ),
-
                   const SizedBox(height: 10),
-                  //Login button
                   Container(
                     height: 55,
                     width: MediaQuery.of(context).size.width * .9,
@@ -169,7 +148,6 @@ login() async {
                           child: const Text("SIGN UP"))
                     ],
                   ),
-                  // We will disable this message in default, when user and pass is incorrect we will trigger this message to user
                   isLoginTrue
                       ? const Text(
                           "Username or passowrd is incorrect",

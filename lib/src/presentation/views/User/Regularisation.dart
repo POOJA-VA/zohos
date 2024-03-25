@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:zoho/src/presentation/JsonModels/regularization.dart';
-import 'package:zoho/src/presentation/SQLite/sqlite.dart';
+import 'package:zoho/src/data/datasource/sqlite.dart';
+import 'package:zoho/src/domain/Modal/regularization.dart';
+import 'package:zoho/src/presentation/tabs/Pending.dart';
 import 'package:zoho/src/presentation/widgets/DropDown.dart';
-import 'package:zoho/tabs/Pending.dart';
 
 class Regular extends StatefulWidget {
   const Regular({Key? key}) : super(key: key);
@@ -124,7 +124,6 @@ class _RegularState extends State<Regular> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        // Remove 'const' here
                         Text(
                           'Period',
                           style: TextStyle(
@@ -148,7 +147,7 @@ class _RegularState extends State<Regular> {
                           builder: (context) => AlertDialog(
                             title: Text('Select Period'),
                             content: SizedBox(
-                              height: 100, // Set the desired height here
+                              height: 100,
                               child: DropDown(),
                             ),
                             actions: [
@@ -276,7 +275,7 @@ class _RegularState extends State<Regular> {
                                   ),
                                 ),
                                 Text(
-                                  '09:00\n Hr(s)',
+                                  '09:30\n Hr(s)',
                                   style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold),
@@ -314,7 +313,6 @@ class _RegularState extends State<Regular> {
                                   value: selectedValue,
                                   onChanged: (String? value) {
                                     print(selectedValue);
-
                                     setState(() {
                                       selectedValue = value;
                                     });
@@ -339,7 +337,7 @@ class _RegularState extends State<Regular> {
                               onPressed: () {
                                 setState(() {
                                   selectedValue =
-                                      'Forgot to Check-in'; // Set selectedValue to 'Forgot to Check-in'
+                                      'Forgot to Check-in';
                                 });
                               },
                               child: Center(
@@ -373,7 +371,7 @@ class _RegularState extends State<Regular> {
                     backgroundColor: Colors.redAccent,
                     padding: EdgeInsets.symmetric(
                         horizontal: 50,
-                        vertical: 15), // Set the background color here
+                        vertical: 15),
                   ),
                   child: Text(
                     "Cancel",
@@ -383,29 +381,19 @@ class _RegularState extends State<Regular> {
                 SizedBox(width: 20),
                 TextButton(
                   onPressed: () async {
-                    // Create an instance of DatabaseHelper
                     DatabaseHelper databaseHelper = DatabaseHelper();
-                    // Create RegularizationData object with form data
                     RegularizationData regularizationData = RegularizationData(
                       employeeName:
-                          'EM-3445 Santra Richards', // Replace with actual employee name
+                          'EM-3445 Santra Richards', 
                       date: selectedDate!.toString(),
                       checkInTime: checkInTime,
                       checkOutTime: checkOutTime,
                       hours: checkOutTime.hour -
-                          checkInTime.hour, // Calculate hours
+                          checkInTime.hour,
                       dropdownValue: selectedValue!,
                     );
-                    print(regularizationData.dropdownValue +
-                        "-------------------------------------");
-                    // print(await databaseHelper.getRegularizationData());
-                    // Call insertRegularization on the instance of DatabaseHelper
                     await databaseHelper
                         .insertRegularization(regularizationData);
-                    List<RegularizationData> r =
-                        await DatabaseHelper().getRegularizationData();
-                        print(regularizationData);
-                    // Navigate to another screen or do something else
                     Navigator.push(
                       context,
                       MaterialPageRoute(

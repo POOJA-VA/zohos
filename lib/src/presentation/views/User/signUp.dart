@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:zoho/src/presentation/JsonModels/users.dart';
-import 'package:zoho/src/presentation/SQLite/sqlite.dart';
+import 'package:zoho/src/data/datasource/sqlite.dart';
+import 'package:zoho/src/domain/Modal/login.dart';
 import 'package:zoho/src/presentation/views/User/login.dart';
 
 class SignUp extends StatefulWidget {
@@ -23,7 +23,6 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //SingleChildScrollView to have an scrol in the screen
       body: Center(
         child: SingleChildScrollView(
           child: Form(
@@ -44,7 +43,8 @@ class _SignUpState extends State<SignUp> {
                         const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
-                        color: Colors.deepPurple.withOpacity(.2)),
+                        color:
+                            Color.fromARGB(255, 98, 100, 236).withOpacity(.2)),
                     child: TextFormField(
                       controller: username,
                       validator: (value) {
@@ -60,15 +60,14 @@ class _SignUpState extends State<SignUp> {
                       ),
                     ),
                   ),
-
-                  //Password field
                   Container(
                     margin: const EdgeInsets.all(8),
                     padding:
                         const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
-                        color: Colors.deepPurple.withOpacity(.2)),
+                        color:
+                            Color.fromARGB(255, 98, 100, 236).withOpacity(.2)),
                     child: TextFormField(
                       controller: password,
                       validator: (value) {
@@ -84,9 +83,7 @@ class _SignUpState extends State<SignUp> {
                           hintText: "Password",
                           suffixIcon: IconButton(
                               onPressed: () {
-                                //In here we will create a click to show and hide the password a toggle button
                                 setState(() {
-                                  //toggle button
                                   isVisible = !isVisible;
                                 });
                               },
@@ -95,16 +92,14 @@ class _SignUpState extends State<SignUp> {
                                   : Icons.visibility_off))),
                     ),
                   ),
-
-                  //Confirm Password field
-                  // Now we check whether password matches or not
                   Container(
                     margin: const EdgeInsets.all(8),
                     padding:
                         const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
-                        color: Colors.deepPurple.withOpacity(.2)),
+                        color:
+                            Color.fromARGB(255, 98, 100, 236).withOpacity(.2)),
                     child: TextFormField(
                       controller: confirmPassword,
                       validator: (value) {
@@ -122,9 +117,7 @@ class _SignUpState extends State<SignUp> {
                           hintText: "Password",
                           suffixIcon: IconButton(
                               onPressed: () {
-                                //In here we will create a click to show and hide the password a toggle button
                                 setState(() {
-                                  //toggle button
                                   isVisible = !isVisible;
                                 });
                               },
@@ -133,27 +126,22 @@ class _SignUpState extends State<SignUp> {
                                   : Icons.visibility_off))),
                     ),
                   ),
-
                   const SizedBox(height: 10),
-                  //Login button
                   Container(
                     height: 55,
                     width: MediaQuery.of(context).size.width * .9,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
-                        color: Colors.deepPurple),
+                        color: Color.fromARGB(255, 98, 100, 236)),
                     child: TextButton(
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
-                            //Login method will be here
-
                             final db = DatabaseHelper();
                             db
-                                .signup(Users(
+                                .signup(Login(
                                     usrName: username.text,
                                     usrPassword: password.text))
                                 .whenComplete(() {
-                              //After success user creation go to login screen
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -167,15 +155,12 @@ class _SignUpState extends State<SignUp> {
                           style: TextStyle(color: Colors.white),
                         )),
                   ),
-
-                  //Sign up button
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text("Already have an account?"),
                       TextButton(
                           onPressed: () {
-                            //Navigate to sign up
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
