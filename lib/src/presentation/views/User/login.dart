@@ -1,45 +1,97 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
-import 'package:zoho/src/data/datasource/sqlite.dart';
-import 'package:zoho/src/domain/Modal/login.dart';
-import 'package:zoho/src/presentation/views/User/Admin.dart';
+import 'package:zoho/src/data/datasource/local/sqflite.dart';
+import 'package:zoho/src/presentation/provider/loginProvider.dart';
+// import 'package:zoho/src/presentation/views/User/Admin.dart';
 import 'package:zoho/src/presentation/views/User/Home.dart';
 import 'package:zoho/src/presentation/views/User/signUp.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class LoginScreen extends ConsumerStatefulWidget {
+  const LoginScreen({
+    Key? key,
+  });
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  final username = TextEditingController();
-  final password = TextEditingController();
+class _LoginScreenState extends ConsumerState<LoginScreen> {
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
   bool isVisible = false;
   bool isLoginTrue = false;
-  final db = DatabaseHelper();
-  
-  login() async {
-    if (username.text == "admin@123" && password.text == "123456") {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => Admin()),
+
+  final ProjectDataSource db = ProjectDataSource();
+
+  Future<void> login() async {
+    final String username = _usernameController.text;
+    final String password = _passwordController.text;
+
+    if (username.isEmpty || password.isEmpty) {
+      showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: const Text('Error'),
+          content: const Text('Please enter email and password'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        ),
       );
       return;
     }
 
-    var response = await db
-        .login(Login(usrName: username.text, usrPassword: password.text));
-    if (response == true) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const Home()),
-      );
+    bool isAuthenticated = false;
+
+    if (username.contains('member') && password == 'Member12') {
+      isAuthenticated = true;
     } else {
-      setState(() {
-        isLoginTrue = true;
-      });
+      isAuthenticated =
+          await ref.read(authProvider.notifier).login(username, password);
+    }
+
+    if (isAuthenticated) {
+      if (username.contains('member')) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (_) => const Home(
+                // projects: [],
+                ),
+          ),
+        );
+      } else {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (_) => Home(),
+          ),
+        );
+      }
+    } else {
+      showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: const Text('Error'),
+          content: const Text('Invalid username or password'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
     }
   }
 
@@ -68,12 +120,15 @@ class _LoginScreenState extends State<LoginScreen> {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
                         color:
-                            Color.fromARGB(255, 130, 131, 229).withOpacity(.2)),
+                            Color.fromARGB(255, 102, 65, 188).withOpacity(.2)),
                     child: TextFormField(
-                      controller: username,
+                      controller: _usernameController,
                       validator: (value) {
                         if (value!.isEmpty) {
-                          return "username is required";
+                          return "Username is required";
+                        }
+                        if (!isValidEmail(value)) {
+                          return "Invalid email";
                         }
                         return null;
                       },
@@ -91,12 +146,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
                         color:
-                            Color.fromARGB(255, 130, 131, 229).withOpacity(.2)),
+                            Color.fromARGB(255, 98, 100, 236).withOpacity(.2)),
                     child: TextFormField(
-                      controller: password,
+                      controller: _passwordController,
                       validator: (value) {
                         if (value!.isEmpty) {
-                          return "password is required";
+                          return "Password is required";
                         }
                         return null;
                       },
@@ -122,35 +177,37 @@ class _LoginScreenState extends State<LoginScreen> {
                     width: MediaQuery.of(context).size.width * .9,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
-                        color: Color.fromARGB(255, 98, 100, 236)),
+                        color: Color.fromARGB(255, 102, 65, 188)),
                     child: TextButton(
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
                             login();
                           }
                         },
-                        child: const Text(
-                          "LOGIN",
+                        child: Text(
+                          AppLocalizations.of(context)!.login,
                           style: TextStyle(color: Colors.white),
                         )),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text("Don't have an account?"),
+                      Text(
+                        AppLocalizations.of(context)!.accountNeed,
+                      ),
                       TextButton(
                           onPressed: () {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const SignUp()));
+                                    builder: (_) => const SignUp()));
                           },
-                          child: const Text("SIGN UP"))
+                          child: Text(AppLocalizations.of(context)!.register)),
                     ],
                   ),
                   isLoginTrue
                       ? const Text(
-                          "Username or passowrd is incorrect",
+                          "Username or password is incorrect",
                           style: TextStyle(color: Colors.red),
                         )
                       : const SizedBox(),
@@ -161,5 +218,22 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  static final RegExp emailRegex = RegExp(
+    r'^[A-Z][a-zA-Z0-9._-]{4,}$',
+  );
+
+  static final RegExp passwordRegex = RegExp(
+    r'^(?=.*\d)[A-Za-z\d]{5,}$',
+  );
+
+  static bool isValidEmail(String email) {
+    return emailRegex.hasMatch(email);
+  }
+
+  // ignore: unused_element
+  static bool isValidPassword(String password) {
+    return passwordRegex.hasMatch(password);
   }
 }

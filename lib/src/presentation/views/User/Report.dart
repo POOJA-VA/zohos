@@ -1,47 +1,52 @@
 import 'package:flutter/material.dart';
-import 'package:zoho/src/data/datasource/sqlite.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:zoho/src/presentation/barGraph/barGraph.dart';
+import 'package:zoho/src/presentation/provider/hoursProvider.dart';
+import 'package:zoho/src/presentation/provider/reportProvider.dart';
+import 'package:zoho/src/presentation/views/User/UserList.dart';
 
-class Report extends StatefulWidget {
+class Report extends ConsumerStatefulWidget {
   const Report({Key? key}) : super(key: key);
 
   @override
-  State<Report> createState() => _ReportState();
+  ConsumerState<Report> createState() => _ReportState();
 }
 
-class _ReportState extends State<Report> {
-  List<double> weeklySummary = [
-    00.00,
-    90.30,
-    90.40,
-    95.00,
-    90.25,
-    80.45,
-    30.10,
-  ];
-
-  late String formattedDate;
-  late Future<List<Map<String, dynamic>>> _checkInOutListFuture;
-  late List<Map<String, dynamic>> _checkInOutList = [];
-
+class _ReportState extends ConsumerState<Report> {
   @override
   void initState() {
+    ref.read(hrsProvider).setHours();
+    print(ref.read(hrsProvider).hrs);
     super.initState();
-    _checkInOutListFuture = DatabaseHelper.instance.getReports();
-    _checkInOutListFuture.then((value) {
-      setState(() {
-        _checkInOutList = value;
-      });
-    });
   }
 
   @override
   Widget build(BuildContext context) {
+    ref.read(checkInOutProvider.notifier).fetchCheckInOutList();
+    // ref.read(hrsProvider).setHours();
+
+    final checkInOutList = ref.watch(checkInOutProvider);
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Report',
-          style: TextStyle(fontWeight: FontWeight.bold),
+        title: Row(
+          children: [
+            Expanded(
+              child: Text(
+                AppLocalizations.of(context)!.report,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+            IconButton(
+              icon: Icon(Icons.person),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => UserList()),
+                );
+              },
+            ),
+          ],
         ),
       ),
       body: Column(
@@ -58,8 +63,8 @@ class _ReportState extends State<Report> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        const Text(
-                          'Total Time',
+                        Text(
+                          AppLocalizations.of(context)!.totalTime,
                           style: TextStyle(fontSize: 12, color: Colors.grey),
                         ),
                         const SizedBox(height: 8),
@@ -84,13 +89,13 @@ class _ReportState extends State<Report> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        const Text(
-                          'Average Hours',
+                        Text(
+                          AppLocalizations.of(context)!.averageTime,
                           style: TextStyle(fontSize: 12, color: Colors.grey),
                         ),
                         const SizedBox(height: 8),
                         const Text(
-                          '08:00:00',
+                          '56:00:00',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 20,
@@ -112,8 +117,8 @@ class _ReportState extends State<Report> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    const Text(
-                      'Summary Report',
+                    Text(
+                      AppLocalizations.of(context)!.summaryReport,
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                     ),
@@ -121,7 +126,7 @@ class _ReportState extends State<Report> {
                       child: SizedBox(
                         height: 190,
                         child: BarGraph(
-                          weeklySummary: weeklySummary,
+                          weeklySummary: ref.watch(hrsProvider).hrs,
                         ),
                       ),
                     ),
@@ -131,14 +136,14 @@ class _ReportState extends State<Report> {
             ),
           ),
           Expanded(
-            child: _checkInOutList.isEmpty
+            child: checkInOutList.isEmpty
                 ? Center(
                     child: Text('No check-in/check-out records available.'),
                   )
                 : ListView.builder(
-                    itemCount: _checkInOutList.length,
+                    itemCount: checkInOutList.length,
                     itemBuilder: (context, index) {
-                      final checkInOut = _checkInOutList[index];
+                      final checkInOut = checkInOutList[index];
                       return SizedBox(
                         width: 300,
                         height: 130,

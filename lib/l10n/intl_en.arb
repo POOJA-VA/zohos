@@ -1,0 +1,17 @@
+{
+    "login": "Login",
+    "register": "Register",
+    "accountNeed": "Don't have an account?",
+    "alreadyHaveAccount": "Already have an account?",
+    "home": "Home",
+    "report": "Report",
+    "summaryReport": "Summary Report",
+    "totalTime": "Total Time",
+    "averageTime": "Average Time",
+    "approvals": "Approvals",
+    "pending": "Pending",
+    "approved": "Approved",
+    "rejected": "Rejected",
+    "location": "Location",
+    "welcomeAdmin": "Welcome Admin"
+}

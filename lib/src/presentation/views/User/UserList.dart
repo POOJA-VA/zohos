@@ -1,18 +1,14 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:zoho/src/presentation/provider/apiProvider.dart';
 
-class UserList extends StatefulWidget {
+class UserList extends ConsumerWidget {
   const UserList({Key? key}) : super(key: key);
 
   @override
-  State<UserList> createState() => _UserListState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final users = ref.watch(userListProvider);
 
-class _UserListState extends State<UserList> {
-  List<dynamic> users = [];
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Users List"),
@@ -34,27 +30,15 @@ class _UserListState extends State<UserList> {
           );
         },
       ),
-      floatingActionButton: SizedBox(
+
+       floatingActionButton: SizedBox(
         width: 150,
         height: 50,
         child: FloatingActionButton(
-          onPressed: fetchUsers,
-          child: Text('Show Users'),
+        onPressed: () => ref.read(userListProvider.notifier).fetchUsers(),
+        child: Text('Show Users'),
         ),
       ),
     );
-  }
-
-  void fetchUsers() async {
-    // print('fetchUsers');
-    const url = 'https://randomuser.me/api/?results=20';
-    final uri = Uri.parse(url);
-    final response = await http.get(uri);
-    final body = response.body;
-    final json = jsonDecode(body);
-    setState(() {
-      users = json['results'];
-    });
-    // print('fetchUsers ###########');
   }
 }

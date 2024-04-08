@@ -3,6 +3,8 @@ import 'package:zoho/src/presentation/tabs/Approved.dart';
 import 'package:zoho/src/presentation/tabs/Pending.dart';
 import 'package:zoho/src/presentation/tabs/Rejected.dart';
 import 'package:zoho/src/presentation/views/User/Regularisation.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class Approvals extends StatefulWidget {
   const Approvals({super.key});
 
@@ -24,7 +26,7 @@ class _ApprovalsState extends State<Approvals>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Approvals',
+        title: Text(AppLocalizations.of(context)!.approvals,
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25)),
         actions: <Widget>[
           IconButton(
@@ -44,13 +46,13 @@ class _ApprovalsState extends State<Approvals>
           controller: _tabController,
           tabs: <Widget>[
             Tab(
-              text: 'Pending',
+              text: AppLocalizations.of(context)!.pending,
             ),
             Tab(
-              text: 'Approved',
+              text: AppLocalizations.of(context)!.approved,
             ),
             Tab(
-              text: 'Rejected',
+              text: AppLocalizations.of(context)!.rejected,
             ),
           ],
         ),

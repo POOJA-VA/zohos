@@ -1,0 +1,17 @@
+{
+    "login": "Einloggen",
+    "register": "Registrieren",
+    "accountNeed": "Sie haben kein Konto?",
+    "alreadyHaveAccount": "Haben Sie bereits ein Konto?",
+    "home": "Zuhause",
+    "report": "Bericht",
+    "summaryReport": "Zusammenfassungsbericht",
+    "totalTime": "Gesamtzeit",
+    "averageTime": "Durchschnittliche Zeit",
+    "approvals": "Genehmigungen",
+    "pending": "Ausstehend",
+    "approved": "Genehmigt",
+    "rejected": "Abgelehnt",
+    "location": "Standort",
+    "welcomeAdmin": "Willkommen Admin"
+}

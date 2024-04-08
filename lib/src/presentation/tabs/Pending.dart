@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:zoho/src/data/datasource/sqlite.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lottie/lottie.dart';
 import 'package:zoho/src/domain/Modal/regularization.dart';
+import 'package:zoho/src/presentation/provider/regularProvider.dart';
 
-class Pending extends StatefulWidget {
+class Pending extends ConsumerWidget {
   final String selectedDropdownValue;
 
   const Pending({
@@ -11,36 +13,45 @@ class Pending extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<Pending> createState() => _PendingState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.listen<List<RegularizationData>>(
+      regularizationProvider,
+      (previousDataList, newDataList) {
+        if (newDataList.isEmpty) {
+          ref.read(regularizationProvider.notifier).fetchRegularization();
+        }
+      },
+    );
 
-class _PendingState extends State<Pending> {
-   List<RegularizationData>? regularizationDataList;
-
-  Future<void> _fetchRegularizationData() async {
-    final fetchedData = await DatabaseHelper.instance.getRegularizationData();
-    setState(() {
-      regularizationDataList = fetchedData;
-    });
-  }
-
-    @override
-  void initState() {
-    super.initState();
-    _fetchRegularizationData();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    if (regularizationDataList!.isEmpty) {
+    final regularizationDataList = ref.watch(regularizationProvider);
+    if (regularizationDataList.isEmpty) {
       return Center(
-        child: Text('No regularization data available.'),
-      );
+  child: Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    crossAxisAlignment: CrossAxisAlignment.center,
+    children: [
+      Lottie.network(
+        'https://lottie.host/bd0e5132-2c38-407a-ba72-f1892558f9c5/yop6ZBBJIu.json',
+        fit: BoxFit.cover,
+      ),
+      Text(
+        'No Records Found',
+        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+      ),
+      SizedBox(height: 5),
+      Text(
+        'There are no records to \ndisplay right now.',
+        textAlign: TextAlign.center,
+      ),
+    ],
+  ),
+);
+
     } else {
       return ListView.builder(
-        itemCount: regularizationDataList!.length,
+        itemCount: regularizationDataList.length,
         itemBuilder: (context, index) {
-          final regularizationData = regularizationDataList![index];
+          final regularizationData = regularizationDataList[index];
           return SizedBox(
             width: 300,
             height: 170,
