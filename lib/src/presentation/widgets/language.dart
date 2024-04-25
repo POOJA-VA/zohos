@@ -19,7 +19,7 @@ class _LanguageState extends ConsumerState<Language> {
     _selectedLanguage = ref.read(languageProvider);
     _availableLanguages = [
       const Locale('en'),
-      const Locale('es'),
+      const Locale('tr'),
       const Locale('fr'),
     ];
   }
@@ -63,8 +63,8 @@ class _LanguageState extends ConsumerState<Language> {
   String _getLanguageName(Locale locale) {
     if (locale.languageCode == 'en') {
       return 'English';
-    } else if (locale.languageCode == 'es') {
-      return 'Spanish';
+    } else if (locale.languageCode == 'tr') {
+      return 'Turkish';
     } else if (locale.languageCode == 'fr') {
       return 'French';
     }

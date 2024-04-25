@@ -6,6 +6,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:zoho/src/presentation/provider/changeNotifer.dart';
 import 'package:zoho/src/presentation/views/User/login.dart';
 import 'package:zoho/src/presentation/widgets/language.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Body extends StatelessWidget {
   final CheckInProvider checkInProvider = CheckInProvider();
@@ -226,7 +227,7 @@ class Body extends StatelessWidget {
                           ),
                           SizedBox(height: 20),
                           Text(
-                            'Generally 09:30 AM to 07:00 PM',
+                            AppLocalizations.of(context)!.generally,
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           SizedBox(height: 20),

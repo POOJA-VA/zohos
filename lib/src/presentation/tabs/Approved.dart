@@ -6,13 +6,10 @@ import 'package:zoho/src/presentation/provider/regularProvider.dart';
 class Approved extends ConsumerWidget {
   const Approved({super.key});
 
-  static bool isFirst = true;
+  // bool isFirst = true;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if(isFirst) {
-      ref.read(statusProvider).setApprovedList();
-      isFirst = false;
-    }
+          ref.read(statusProvider).setApprovedList();
     final approvedDataList = ref.watch(statusProvider).approvedList;
     if (approvedDataList.isEmpty || approvedDataList.length == 0) {
       return Center(

@@ -6,14 +6,9 @@ import 'package:zoho/src/presentation/provider/regularProvider.dart';
 class Rejected extends ConsumerWidget {
   const Rejected({super.key});
 
-  static bool isFirst = true;
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-        if(isFirst) {
       ref.read(statusProvider).setRejectedList();
-      isFirst = false;
-    }
     final rejectedDataList = ref.watch(statusProvider).rejectedList;
     if (rejectedDataList.isEmpty || rejectedDataList.length == 0) {
       return Center(

@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:zoho/src/presentation/provider/changeNotifer.dart';
 import 'package:zoho/src/presentation/views/User/Approvals.dart';
 import 'package:zoho/src/presentation/views/User/login.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class Admin extends StatelessWidget {
   final CheckInProvider checkInProvider = CheckInProvider();
@@ -19,7 +21,7 @@ class Admin extends StatelessWidget {
           return Scaffold(
             appBar: AppBar(
               title: Text(
-                "Welcome Admin!",
+                AppLocalizations.of(context)!.welcomeAdmin,
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               leading: IconButton(
@@ -48,7 +50,7 @@ class Admin extends StatelessWidget {
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 20)),
-                              Text('Product Designer',
+                              Text('Project Manager',
                                   style: TextStyle(
                                       fontSize: 15, color: Colors.grey)),
                               SizedBox(

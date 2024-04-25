@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:zoho/src/presentation/provider/apiProvider.dart';
+import 'package:zoho/src/presentation/provider/apiProvider.dart';import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class UserList extends ConsumerWidget {
   const UserList({Key? key}) : super(key: key);
@@ -11,7 +11,7 @@ class UserList extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Users List"),
+        title: Text(AppLocalizations.of(context)!.userlist),
       ),
       body: ListView.builder(
         itemCount: users.length,
@@ -36,7 +36,7 @@ class UserList extends ConsumerWidget {
         height: 50,
         child: FloatingActionButton(
         onPressed: () => ref.read(userListProvider.notifier).fetchUsers(),
-        child: Text('Show Users'),
+        child: Text(AppLocalizations.of(context)!.showusers),
         ),
       ),
     );

@@ -20,14 +20,14 @@ class _RegularState extends ConsumerState<Regular> {
   late TimeOfDay checkOutTime;
   String? selectedValue;
 
-@override
-void initState() {
-  super.initState();
-  DateTime now = DateTime.now().toUtc().add(Duration(hours: 5, minutes: 30));
-  selectedDate = DateTime(now.year, now.month, now.day);
-  checkInTime = TimeOfDay(hour: 9, minute: 30);
-  checkOutTime = TimeOfDay(hour: 7, minute: 00);
-}
+  @override
+  void initState() {
+    super.initState();
+    DateTime now = DateTime.now().toUtc().add(Duration(hours: 5, minutes: 30));
+    selectedDate = DateTime(now.year, now.month, now.day);
+    checkInTime = TimeOfDay(hour: 9, minute: 30);
+    checkOutTime = TimeOfDay(hour: 19, minute: 00);
+  }
 
   Future<void> _selectDateTime(BuildContext context, String choose) async {
     final DateTime? pickedDate = await showDatePicker(
@@ -36,10 +36,15 @@ void initState() {
       firstDate: DateTime(2000),
       lastDate: DateTime(2101),
     );
+    if (pickedDate != null) {
+      setState(() {
+        selectedDate = pickedDate;
+      });
+    }
     if (pickedDate != null && choose != "Date") {
       final TimeOfDay? pickedTime = await showTimePicker(
         context: context,
-        initialTime: TimeOfDay(hour: 9, minute: 30),
+        initialTime: TimeOfDay(hour: 19, minute: 30),
       );
       if (pickedTime != null) {
         setState(() {
@@ -352,14 +357,13 @@ void initState() {
                 TextButton(
                   onPressed: () async {
                     RegularizationData regularizationData = RegularizationData(
-                      employeeName: 'EM-3445 Santra Richards',
-                      date: selectedDate.toString(),
-                      checkInTime: checkInTime,
-                      checkOutTime: checkOutTime,
-                      hours: checkOutTime.hour - checkInTime.hour,
-                      dropdownValue: selectedValue!,
-                      status: "Pending"
-                    );
+                        employeeName: 'EM-3445 Santra Richards',
+                        date: selectedDate.toString(),
+                        checkInTime: checkInTime,
+                        checkOutTime: checkOutTime,
+                        hours: checkOutTime.hour - checkInTime.hour,
+                        dropdownValue: selectedValue!,
+                        status: "Pending");
                     ref
                         .read(regularizationProvider.notifier)
                         .insertRegularization(regularizationData);

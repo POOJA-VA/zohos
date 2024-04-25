@@ -11,15 +11,11 @@ class Pending extends ConsumerWidget {
       : super(key: key);
   final String role;
 
-  static bool isFirst = true;
+  // bool isFirst = true;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
-    if(isFirst) {
-      ref.read(statusProvider).setPendingList();
-      isFirst = false;
-    }
+    ref.read(statusProvider).setPendingList();
     // final regularizationPendingDataList = ref.watch(regularizationProvider);
     // final regularizationPendingDataList = ref.watch(pendingRegularizationProvider);
     final pendingList = ref.watch(statusProvider).pendingList;

@@ -97,7 +97,7 @@ class _LocationState extends State<LocationPage> {
             ),
             ElevatedButton(
               onPressed: getPermission,
-              child: const Text("Get Location"),
+              child: Text(AppLocalizations.of(context)!.getlocation),
             ),
             const SizedBox(
               height: 20,
@@ -110,7 +110,7 @@ class _LocationState extends State<LocationPage> {
             ),
             ElevatedButton(
               onPressed: getAddress,
-              child: const Text("Get Address"),
+              child: Text(AppLocalizations.of(context)!.getaddress),
             ),
           ],
         ),
