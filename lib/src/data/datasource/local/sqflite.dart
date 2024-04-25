@@ -138,25 +138,19 @@ class ProjectDataSource implements ProjectRepository {
           "SELECT title, hours FROM checkinout WHERE title='${dateFormat.format(date)}'");
       if (hour.isNotEmpty && hour.length > 0) {
         if (hour.first['title'].split(",")[0] == 'Sunday') {
-          hours[1] = double.parse(hour.first['hours'].replaceAll(":","."));
-        }
-        else if (hour.first['title'].split(",")[0] == 'Monday') {
-          hours[1] = double.parse(hour.first['hours'].replaceAll(":","."));
-        }
-        else if (hour.first['title'].split(",")[0] == 'Tuesday') {
-          hours[1] = double.parse(hour.first['hours'].replaceAll(":","."));
-        }
-        else if (hour.first['title'].split(",")[0] == 'Wednesday') {
-          hours[1] = double.parse(hour.first['hours'].replaceAll(":","."));
-        }
-        else if (hour.first['title'].split(",")[0] == 'Thursday') {
-          hours[1] = double.parse(hour.first['hours'].replaceAll(":","."));
-        }
-        else if (hour.first['title'].split(",")[0] == 'Friday') {
-          hours[1] = double.parse(hour.first['hours'].replaceAll(":","."));
-        }
-        else if (hour.first['title'].split(",")[0] == 'Saturday') {
-          hours[1] = double.parse(hour.first['hours'].replaceAll(":","."));
+          hours[1] = double.parse(hour.first['hours'].replaceAll(":", "."));
+        } else if (hour.first['title'].split(",")[0] == 'Monday') {
+          hours[1] = double.parse(hour.first['hours'].replaceAll(":", "."));
+        } else if (hour.first['title'].split(",")[0] == 'Tuesday') {
+          hours[1] = double.parse(hour.first['hours'].replaceAll(":", "."));
+        } else if (hour.first['title'].split(",")[0] == 'Wednesday') {
+          hours[1] = double.parse(hour.first['hours'].replaceAll(":", "."));
+        } else if (hour.first['title'].split(",")[0] == 'Thursday') {
+          hours[1] = double.parse(hour.first['hours'].replaceAll(":", "."));
+        } else if (hour.first['title'].split(",")[0] == 'Friday') {
+          hours[1] = double.parse(hour.first['hours'].replaceAll(":", "."));
+        } else if (hour.first['title'].split(",")[0] == 'Saturday') {
+          hours[1] = double.parse(hour.first['hours'].replaceAll(":", "."));
         }
       }
     }
@@ -175,27 +169,3 @@ class ProjectDataSource implements ProjectRepository {
     return weekDates;
   }
 }
-
-
-  //   Future<void> insertReport(Map<String, dynamic> data) async {
-  //   final Database db = await initDB();
-  //   DateTime checkinDate = DateTime.parse(data['checkin']);
-  //   print('$checkinDate');
-  //   String dayOfWeek = DateFormat('EEEE').format(checkinDate);
-  //   data['title'] = dayOfWeek;
-  //   if (dayOfWeek == 'Monday') {
-  //     DateTime checkinTime = DateTime.parse(data['checkin']);
-  //     DateTime checkoutTime = checkinTime.add(Duration(hours: 9));
-  //     data['checkout'] = DateFormat('yyyy-MM-dd HH:mm:ss').format(checkoutTime);
-  //   } else {
-  //     DateTime checkinTime = DateTime.parse(data['checkin']);
-  //     DateTime checkoutTime = checkinTime.add(Duration(hours: 9));
-  //     data['checkout'] = DateFormat('yyyy-MM-dd HH:mm:ss').format(checkoutTime);
-  //   }
-  //   await db.insert(
-  //     'checkinout',
-  //     data,
-  //     conflictAlgorithm: ConflictAlgorithm.replace,
-  //   );
-  //   await db.close();
-  // }
