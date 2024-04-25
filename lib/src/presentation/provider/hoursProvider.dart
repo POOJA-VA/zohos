@@ -9,11 +9,11 @@ class HoursProvider extends ChangeNotifier {
   List<double> hrs = [];
     void setHours() async {
       final dataSource = ProjectDataSource();
-      print("check");
+      // print("check");
       DateTime now = DateTime.now();
       DateFormat dateFormat = DateFormat('EEEE');
       if(dateFormat.format(now) == "Sunday") {
-        hrs = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
+        hrs = [00.00, 00.00, 00.00, 00.00, 00.00, 00.00, 00.00];
       }else {
       hrs = await dataSource.getHours();
       }

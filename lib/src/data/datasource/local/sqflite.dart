@@ -11,7 +11,7 @@ class ProjectDataSource implements ProjectRepository {
       "create table users (userId INTEGER PRIMARY KEY AUTOINCREMENT, userName TEXT UNIQUE, userPassword TEXT)";
 
   final String regularization =
-      "CREATE TABLE regularization (id INTEGER PRIMARY KEY AUTOINCREMENT, employeeName TEXT, date TEXT, checkInTime TEXT, checkOutTime TEXT, hours INTEGER, dropdownValue TEXT)";
+      "CREATE TABLE regularization (id INTEGER PRIMARY KEY AUTOINCREMENT, employeeName TEXT, date TEXT, checkInTime TEXT, checkOutTime TEXT, hours INTEGER, dropdownValue TEXT, status TEXT)";
 
   final String checkInOutTable =
       "CREATE TABLE checkinout (id INTEGER PRIMARY KEY, title TEXT, checkin TEXT, checkout TEXT, hours TEXT)";
@@ -72,23 +72,51 @@ class ProjectDataSource implements ProjectRepository {
   }
 
   @override
-  Future<List<RegularizationData>> getRegularization() async {
+  Future<List<RegularizationData>> getPendingRegularization() async {
     final Database db = await initDB();
-    final List<Map<String, dynamic>> result = await db.query('regularization');
+    final List<Map<String, dynamic>> result = await db
+        .query('regularization', where: "status=?", whereArgs: ["Pending"]);
+    // await db.close();
+    return result.map((map) => RegularizationData.fromMap(map)).toList();
+  }
+
+  @override
+  Future<List<RegularizationData>> getApprovedRegularization() async {
+    final Database db = await initDB();
+    final List<Map<String, dynamic>> result = await db
+        .query('regularization', where: "status=?", whereArgs: ["Approved"]);
+    await db.close();
+    return result.map((map) => RegularizationData.fromMap(map)).toList();
+  }
+
+  @override
+  Future<List<RegularizationData>> getRejectedRegularization() async {
+    final Database db = await initDB();
+    final List<Map<String, dynamic>> result = await db
+        .query('regularization', where: "status=?", whereArgs: ["Rejected"]);
     await db.close();
     return result.map((map) => RegularizationData.fromMap(map)).toList();
   }
 
   @override
   Future<void> insertRegularization(RegularizationData data) async {
-    print("${data.id}");
     final Database db = await initDB();
     int a = await db.insert(
       'regularization',
       data.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
-    print(a);
+    await db.close();
+  }
+
+  Future<void> updateRegularization(int id, String status) async {
+    final Database db = await initDB();
+    await db.update(
+      'regularization',
+      {"status": status},
+      where: "id = ?",
+      whereArgs: [id],
+    );
     await db.close();
   }
 
@@ -131,7 +159,7 @@ class ProjectDataSource implements ProjectRepository {
   Future<List<double>> getHours() async {
     final Database db = await initDB();
     List<DateTime> currentWeekList = getDateList();
-    List<double> hours = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
+    List<double> hours = [00.00, 00.00, 00.00, 00.00, 00.00, 00.00, 00.00];
     DateFormat dateFormat = DateFormat('EEEE, dd MMMM');
     for (DateTime date in currentWeekList) {
       List<Map<String, dynamic>> hour = await db.rawQuery(

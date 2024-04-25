@@ -4,7 +4,6 @@ import 'package:location/location.dart' as loc;
 import 'package:lottie/lottie.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:zoho/src/presentation/widgets/language.dart';
 
 class LocationPage extends StatefulWidget {
   const LocationPage({Key? key}) : super(key: key);
@@ -70,17 +69,6 @@ class _LocationState extends State<LocationPage> {
           AppLocalizations.of(context)!.location,
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.translate), // Search icon
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const Language()),
-              );
-            },
-          ),
-        ],
       ),
       body: SizedBox(
         width: double.infinity,

@@ -26,17 +26,17 @@ void initState() {
   DateTime now = DateTime.now().toUtc().add(Duration(hours: 5, minutes: 30));
   selectedDate = DateTime(now.year, now.month, now.day);
   checkInTime = TimeOfDay(hour: 9, minute: 30);
-  checkOutTime = TimeOfDay(hour: 19, minute: 0);
+  checkOutTime = TimeOfDay(hour: 7, minute: 00);
 }
 
-  Future<void> _selectDateTime(BuildContext context) async {
+  Future<void> _selectDateTime(BuildContext context, String choose) async {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: selectedDate,
       firstDate: DateTime(2000),
       lastDate: DateTime(2101),
     );
-    if (pickedDate != null) {
+    if (pickedDate != null && choose != "Date") {
       final TimeOfDay? pickedTime = await showTimePicker(
         context: context,
         initialTime: TimeOfDay(hour: 9, minute: 30),
@@ -64,7 +64,7 @@ void initState() {
     setState(() {
       selectedDate = DateTime.now();
       checkInTime = TimeOfDay(hour: 9, minute: 30);
-      checkOutTime = TimeOfDay(hour: 19, minute: 0);
+      checkOutTime = TimeOfDay(hour: 7, minute: 00);
       selectedValue = null;
     });
   }
@@ -178,7 +178,7 @@ void initState() {
                     ),
                     IconButton(
                       onPressed: () {
-                        _selectDateTime(context);
+                        _selectDateTime(context, "Date");
                       },
                       icon: Icon(Icons.arrow_forward_ios_outlined,
                           color: Colors.lightBlueAccent),
@@ -235,7 +235,7 @@ void initState() {
                               children: <Widget>[
                                 TextButton(
                                   onPressed: () {
-                                    _selectDateTime(context);
+                                    _selectDateTime(context, "");
                                   },
                                   child: Text(
                                     'Check-in\n${selectedDate.day}-${selectedDate.month}-${selectedDate.year} \n${checkInTime.format(context)}',
@@ -245,7 +245,7 @@ void initState() {
                                 ),
                                 TextButton(
                                   onPressed: () {
-                                    _selectDateTime(context);
+                                    _selectDateTime(context, "");
                                   },
                                   child: Text(
                                     'Check-out\n${selectedDate.day}-${selectedDate.month}-${selectedDate.year} \n${checkOutTime.format(context)}',
@@ -358,6 +358,7 @@ void initState() {
                       checkOutTime: checkOutTime,
                       hours: checkOutTime.hour - checkInTime.hour,
                       dropdownValue: selectedValue!,
+                      status: "Pending"
                     );
                     ref
                         .read(regularizationProvider.notifier)
@@ -367,6 +368,7 @@ void initState() {
                       MaterialPageRoute(
                         builder: (context) => Pending(
                           selectedDropdownValue: selectedValue!,
+                          role: "User",
                         ),
                       ),
                     );

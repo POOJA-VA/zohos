@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:zoho/src/presentation/provider/changeNotifer.dart';
 import 'package:zoho/src/presentation/views/User/login.dart';
+import 'package:zoho/src/presentation/widgets/language.dart';
 
 class Body extends StatelessWidget {
   final CheckInProvider checkInProvider = CheckInProvider();
@@ -122,16 +123,17 @@ class Body extends StatelessWidget {
                   );
                 },
               ),
-              actions: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.search), // Search icon
-                  onPressed: () {},
-                ),
-                IconButton(
-                  icon: Icon(Icons.notifications_none_sharp), // More options icon
-                  onPressed: () {},
-                ),
-              ],
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.translate), // Search icon
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const Language()),
+              );
+            },
+          ),
+        ],
             ),
             body: Center(
               child: Column(

@@ -8,6 +8,7 @@ class RegularizationData {
   final TimeOfDay checkOutTime;
   final int hours;
   final String dropdownValue;
+  final String status;
 
   RegularizationData({
     this.id,
@@ -17,6 +18,7 @@ class RegularizationData {
     required this.checkOutTime,
     required this.hours,
     required this.dropdownValue,
+    required this.status,
   });
 
   Map<String, dynamic> toMap() {
@@ -28,6 +30,7 @@ class RegularizationData {
       'checkOutTime': '${checkOutTime.hour}:${checkOutTime.minute}',
       'hours': hours,
       'dropdownValue': dropdownValue,
+      'status': status,
     };
   }
 
@@ -60,6 +63,7 @@ class RegularizationData {
       checkOutTime: checkOutTime,
       hours: map['hours'],
       dropdownValue: map['dropdownValue'],
+      status: map['status'],
     );
   }
 }

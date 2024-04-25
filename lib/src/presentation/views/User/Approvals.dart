@@ -6,7 +6,8 @@ import 'package:zoho/src/presentation/views/User/Regularisation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Approvals extends StatefulWidget {
-  const Approvals({super.key});
+  const Approvals({super.key, required this.role});
+  final String role;
 
   @override
   State<Approvals> createState() => _ApprovalsState();
@@ -26,10 +27,10 @@ class _ApprovalsState extends State<Approvals>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.approvals,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25)),
+        title: widget.role == "User" ? Text(AppLocalizations.of(context)!.approvals,
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25)): Text(""),
         actions: <Widget>[
-          IconButton(
+          widget.role == "User" ? IconButton(
             icon: Icon(
               Icons.add_sharp,
               color: Colors.black,
@@ -40,7 +41,7 @@ class _ApprovalsState extends State<Approvals>
                 MaterialPageRoute(builder: (context) => const Regular()),
               );
             },
-          )
+          ) : Text("")
         ],
         bottom: TabBar(
           controller: _tabController,
@@ -57,10 +58,10 @@ class _ApprovalsState extends State<Approvals>
           ],
         ),
       ),
-      body: new TabBarView(controller: _tabController,children: <Widget>[
-        new Pending(selectedDropdownValue: '',),
-        new Approved(),
-        new Rejected(),
+      body: TabBarView(controller: _tabController,children: <Widget>[
+        Pending(selectedDropdownValue: '', role: widget.role,),
+        Approved(),
+        Rejected(),
       ]),
     );
   }

@@ -26,17 +26,27 @@ class DatabaseProjectRepository implements ProjectRepository {
   Future<void> insertRegularization(RegularizationData data) async {
     return await _dataSource.insertRegularization(data);
   }
-  
+
   @override
-  Future<List<RegularizationData>> getRegularization() async {
-    return await _dataSource.getRegularization();
+  Future<List<RegularizationData>> getPendingRegularization() async {
+    return await _dataSource.getPendingRegularization();
   }
-  
-   @override
+
+  @override
+  Future<List<RegularizationData>> getApprovedRegularization() async {
+    return await _dataSource.getApprovedRegularization();
+  }
+
+  @override
+  Future<List<RegularizationData>> getRejectedRegularization() async {
+    return await _dataSource.getRejectedRegularization();
+  }
+
+  @override
   Future<List<Map<String, dynamic>>> getReports() async {
     return await _dataSource.getReports();
   }
-  
+
   @override
   Future<void> insertReport(Map<String, dynamic> data) async {
     return await _dataSource.insertReport(data);

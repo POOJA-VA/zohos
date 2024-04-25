@@ -17,7 +17,7 @@ class _ReportState extends ConsumerState<Report> {
   @override
   void initState() {
     ref.read(hrsProvider).setHours();
-    print(ref.read(hrsProvider).hrs);
+    // print(ref.read(hrsProvider).hrs);
     super.initState();
   }
 

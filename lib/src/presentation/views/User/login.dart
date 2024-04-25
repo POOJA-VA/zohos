@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:zoho/src/data/datasource/local/sqflite.dart';
 import 'package:zoho/src/presentation/provider/loginProvider.dart';
-// import 'package:zoho/src/presentation/views/User/Admin.dart';
+import 'package:zoho/src/presentation/views/User/Admin.dart';
 import 'package:zoho/src/presentation/views/User/Home.dart';
 import 'package:zoho/src/presentation/views/User/signUp.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -51,31 +51,24 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
     bool isAuthenticated = false;
 
-    if (username.contains('member') && password == 'Member12') {
+    if (username.contains('Admin') && password == 'Admin@12') {
       isAuthenticated = true;
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (_) => Admin(),
+          ),
+        );
     } else {
       isAuthenticated =
           await ref.read(authProvider.notifier).login(username, password);
-    }
-
-    if (isAuthenticated) {
-      if (username.contains('member')) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (_) => const Home(
-                // projects: [],
-                ),
-          ),
-        );
-      } else {
-        Navigator.pushReplacement(
+      if (isAuthenticated) {
+      Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (_) => Home(),
           ),
         );
-      }
     } else {
       showDialog(
         context: context,
@@ -93,6 +86,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         ),
       );
     }
+    }
+
+    
   }
 
   final formKey = GlobalKey<FormState>();

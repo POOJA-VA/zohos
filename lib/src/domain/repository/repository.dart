@@ -5,7 +5,9 @@ abstract class ProjectRepository {
   Future<bool> login(String userName, String userPassword);
   Future<void> signup(String userName, String userPassword);
   Future<void> insertRegularization(RegularizationData data);
-  Future<List<RegularizationData>> getRegularization();
+  Future<List<RegularizationData>> getPendingRegularization();
+  Future<List<RegularizationData>> getApprovedRegularization();
+  Future<List<RegularizationData>> getRejectedRegularization();
   Future<void> insertReport(Map<String, dynamic> data);
   Future<List<Map<String, dynamic>>> getReports();
 }
