@@ -19,7 +19,7 @@ class ProjectDataSource implements ProjectRepository {
   Future<Database> initDB() async {
     final String databasePath = await getDatabasesPath();
     final String path = join(databasePath, databaseName);
-
+      // await deleteDatabase(path);
     return openDatabase(path, version: 1, onCreate: (db, version) async {
       await db.execute(users);
       await db.execute(regularization);

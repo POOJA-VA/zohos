@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:zoho/src/domain/Modal/regularization.dart';
 import 'package:zoho/src/presentation/provider/regularProvider.dart';
 import 'package:zoho/src/presentation/tabs/Pending.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Regular extends ConsumerStatefulWidget {
   const Regular({Key? key}) : super(key: key);
@@ -69,7 +70,7 @@ class _RegularState extends ConsumerState<Regular> {
     setState(() {
       selectedDate = DateTime.now();
       checkInTime = TimeOfDay(hour: 9, minute: 30);
-      checkOutTime = TimeOfDay(hour: 7, minute: 00);
+      checkOutTime = TimeOfDay(hour: 19, minute: 00);
       selectedValue = null;
     });
   }
@@ -87,7 +88,7 @@ class _RegularState extends ConsumerState<Regular> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Regularization',
+          AppLocalizations.of(context)!.regularization,
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
@@ -104,9 +105,9 @@ class _RegularState extends ConsumerState<Regular> {
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const <Widget>[
+                      children: <Widget>[
                         Text(
-                          'Employee',
+                          AppLocalizations.of(context)!.employee,
                           style: TextStyle(
                               fontSize: 15, fontWeight: FontWeight.bold),
                         ),
@@ -137,7 +138,7 @@ class _RegularState extends ConsumerState<Regular> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          'Period',
+                          AppLocalizations.of(context)!.period,
                           style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
@@ -169,8 +170,8 @@ class _RegularState extends ConsumerState<Regular> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        const Text(
-                          'Date',
+                        Text(
+                          AppLocalizations.of(context)!.date,
                           style: TextStyle(
                               fontSize: 15, fontWeight: FontWeight.bold),
                         ),
@@ -318,7 +319,7 @@ class _RegularState extends ConsumerState<Regular> {
                               ),
                               onPressed: _reset,
                               child: Center(
-                                child: const Text('Reset'),
+                                child: Text(AppLocalizations.of(context)!.reset),
                               ),
                             ),
                           ],
@@ -349,7 +350,7 @@ class _RegularState extends ConsumerState<Regular> {
                     padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                   ),
                   child: Text(
-                    "Cancel",
+                    AppLocalizations.of(context)!.cancel,
                     style: TextStyle(fontSize: 15, color: Colors.white),
                   ),
                 ),
@@ -382,7 +383,7 @@ class _RegularState extends ConsumerState<Regular> {
                     padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                   ),
                   child: Text(
-                    "Submit",
+                    AppLocalizations.of(context)!.submit,
                     style: TextStyle(fontSize: 15, color: Colors.white),
                   ),
                 ),

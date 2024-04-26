@@ -49,7 +49,8 @@ class Body extends StatelessWidget {
                               ),
                               Text('Santra Richard',
                                   style: TextStyle(
-                                      fontWeight: FontWeight.bold, fontSize: 20)),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20)),
                               Text('Product Designer',
                                   style: TextStyle(
                                       fontSize: 15, color: Colors.grey)),
@@ -57,10 +58,12 @@ class Body extends StatelessWidget {
                                 height: 20,
                               ),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Text(
                                         'Date',
@@ -79,7 +82,8 @@ class Body extends StatelessWidget {
                                     ],
                                   ),
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Text(
                                         'Employee Id',
@@ -124,17 +128,17 @@ class Body extends StatelessWidget {
                   );
                 },
               ),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.translate), // Search icon
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const Language()),
-              );
-            },
-          ),
-        ],
+              actions: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.translate), // Search icon
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Language()),
+                    );
+                  },
+                ),
+              ],
             ),
             body: Center(
               child: Column(
@@ -192,7 +196,8 @@ class Body extends StatelessWidget {
                                   color: Colors.white,
                                   alignment: Alignment.center,
                                   child: Text(
-                                    '${checkInProvider.minutes}'.padLeft(2, '0'),
+                                    '${checkInProvider.minutes}'
+                                        .padLeft(2, '0'),
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 25,
@@ -215,7 +220,8 @@ class Body extends StatelessWidget {
                                   color: Colors.white,
                                   alignment: Alignment.center,
                                   child: Text(
-                                    '${checkInProvider.seconds}'.padLeft(2, '0'),
+                                    '${checkInProvider.seconds}'
+                                        .padLeft(2, '0'),
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 25,
@@ -247,7 +253,8 @@ class Body extends StatelessWidget {
                               checkInProvider.isCheckedIn
                                   ? 'Check Out'
                                   : 'Check In',
-                              style: TextStyle(fontSize: 16, color: Colors.white),
+                              style:
+                                  TextStyle(fontSize: 16, color: Colors.white),
                             ),
                           ),
                         ],
