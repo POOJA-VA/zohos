@@ -6,7 +6,6 @@ import 'package:zoho/src/presentation/views/User/Approvals.dart';
 import 'package:zoho/src/presentation/views/User/login.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
 class Admin extends StatelessWidget {
   final CheckInProvider checkInProvider = CheckInProvider();
 

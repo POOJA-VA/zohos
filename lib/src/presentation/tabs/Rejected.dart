@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:zoho/src/presentation/provider/regularProvider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Rejected extends ConsumerWidget {
   const Rejected({super.key});
@@ -21,12 +22,12 @@ class Rejected extends ConsumerWidget {
               fit: BoxFit.cover,
             ),
             Text(
-              'No Records Found',
+              AppLocalizations.of(context)!.norecords,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
             ),
             SizedBox(height: 5),
             Text(
-              'There are no records to \ndisplay right now.',
+              AppLocalizations.of(context)!.norecordsnow,
               textAlign: TextAlign.center,
             ),
           ],
@@ -87,7 +88,7 @@ class Rejected extends ConsumerWidget {
                       ),
                     ),
                     Text(
-                      'Dropdown Value: ${regularizationData.dropdownValue}',
+                      'Reason: ${regularizationData.dropdownValue}',
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.grey,

@@ -3,6 +3,7 @@ import 'package:zoho/src/presentation/views/User/Approvals.dart';
 import 'package:zoho/src/presentation/views/User/Body.dart';
 import 'package:zoho/src/presentation/views/User/Report.dart';
 import 'package:zoho/src/presentation/views/User/UserLocation.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -43,23 +44,23 @@ class _HomeState extends State<Home> {
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home_filled),
-            label: "Home",
-            backgroundColor: Colors.blue,
+            label: AppLocalizations.of(context)!.home,
+            backgroundColor: Color.fromARGB(218, 71, 167, 163),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.dashboard_outlined),
-            label: "Report",
-            backgroundColor: Colors.blue,
+            label: AppLocalizations.of(context)!.report,
+            backgroundColor: Color.fromARGB(218, 71, 167, 163),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.check_box_outlined),
-            label: "Approvals",
-            backgroundColor: Colors.blue,
+            label: AppLocalizations.of(context)!.approvals,
+            backgroundColor: Color.fromARGB(218, 71, 167, 163),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.location_on_sharp),
-            label: "Location",
-            backgroundColor: Colors.blue,
+            label: AppLocalizations.of(context)!.location,
+            backgroundColor: Color.fromARGB(218, 71, 167, 163),
           ),
         ],
       ),

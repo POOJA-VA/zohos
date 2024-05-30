@@ -16,17 +16,17 @@ class Report extends ConsumerStatefulWidget {
 class _ReportState extends ConsumerState<Report> {
   @override
   void initState() {
-    ref.read(hrsProvider).setHours();
-    // print(ref.read(hrsProvider).hrs);
     super.initState();
+    ref.read(hrsProvider.notifier).setHours();
+    ref.read(checkInOutProvider.notifier).fetchCheckInOutList();
   }
 
   @override
   Widget build(BuildContext context) {
-    ref.read(checkInOutProvider.notifier).fetchCheckInOutList();
-    // ref.read(hrsProvider).setHours();
-
     final checkInOutList = ref.watch(checkInOutProvider);
+    final hrsProviderNotifier = ref.watch(hrsProvider.notifier);
+    final hrs = ref.watch(hrsProvider).hrs;
+
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -117,16 +117,38 @@ class _ReportState extends ConsumerState<Report> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(
-                      AppLocalizations.of(context)!.summaryReport,
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    Row(
+                      children: <Widget>[
+                        IconButton(
+                          icon: Icon(Icons.arrow_back_rounded),
+                          onPressed: () {
+                            setState(() {
+                              hrsProviderNotifier.setPreviousWeek();
+                            });
+                          },
+                        ),
+                        Spacer(),
+                        Text(
+                          AppLocalizations.of(context)!.summaryReport,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 20),
+                        ),
+                        Spacer(),
+                        IconButton(
+                          icon: Icon(Icons.arrow_forward_rounded),
+                          onPressed: () {
+                            setState(() {
+                              hrsProviderNotifier.setCurrentWeek();
+                            });
+                          },
+                        ),
+                      ],
                     ),
                     Center(
                       child: SizedBox(
                         height: 190,
                         child: BarGraph(
-                          weeklySummary: ref.watch(hrsProvider).hrs,
+                          weeklySummary: hrs,
                         ),
                       ),
                     ),
@@ -138,7 +160,7 @@ class _ReportState extends ConsumerState<Report> {
           Expanded(
             child: checkInOutList.isEmpty
                 ? Center(
-                    child: Text('No check-in/check-out records available.'),
+                    child: Text(AppLocalizations.of(context)!.record),
                   )
                 : ListView.builder(
                     itemCount: checkInOutList.length,
@@ -165,7 +187,7 @@ class _ReportState extends ConsumerState<Report> {
                                       ),
                                     ),
                                     Text(
-                                      '${checkInOut['hours']}',
+                                      '${checkInOut['hours'] != null ? checkInOut['hours'] : 'Absent'}',
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 18,
@@ -189,15 +211,16 @@ class _ReportState extends ConsumerState<Report> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
-                                        const Text(
-                                          'Checkin',
+                                        Text(
+                                          AppLocalizations.of(context)!.checkin,
                                           style: TextStyle(
                                             fontSize: 14,
-                                            color: Colors.grey,
+                                            color: Color.fromARGB(
+                                                255, 177, 178, 178),
                                           ),
                                         ),
                                         Text(
-                                          '${checkInOut['checkin']}',
+                                          '${checkInOut['checkin'] != null ? checkInOut['checkin'] : '00:00:00'}',
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 20,
@@ -217,15 +240,16 @@ class _ReportState extends ConsumerState<Report> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
-                                        const Text(
-                                          'Checkout',
+                                        Text(
+                                          AppLocalizations.of(context)!
+                                              .checkout,
                                           style: TextStyle(
                                             fontSize: 14,
                                             color: Colors.grey,
                                           ),
                                         ),
                                         Text(
-                                          '${checkInOut['checkout']}',
+                                          '${checkInOut['checkout'] != null ? checkInOut['checkout'] : '00:00:00'}',
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 20,

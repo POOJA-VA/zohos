@@ -15,7 +15,6 @@ class Regular extends ConsumerStatefulWidget {
 }
 
 class _RegularState extends ConsumerState<Regular> {
-  String dropdownValue = 'Day';
   late DateTime selectedDate;
   late TimeOfDay checkInTime;
   late TimeOfDay checkOutTime;
@@ -26,7 +25,7 @@ class _RegularState extends ConsumerState<Regular> {
     super.initState();
     DateTime now = DateTime.now().toUtc().add(Duration(hours: 5, minutes: 30));
     selectedDate = DateTime(now.year, now.month, now.day);
-    checkInTime = TimeOfDay(hour: 9, minute: 30);
+    checkInTime = TimeOfDay(hour: 9, minute: 00);
     checkOutTime = TimeOfDay(hour: 19, minute: 00);
   }
 
@@ -34,8 +33,8 @@ class _RegularState extends ConsumerState<Regular> {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: selectedDate,
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2101),
+      firstDate: DateTime(2024, 5),
+      lastDate: DateTime.now(),
     );
     if (pickedDate != null) {
       setState(() {
@@ -56,11 +55,15 @@ class _RegularState extends ConsumerState<Regular> {
             pickedTime.hour,
             pickedTime.minute,
           );
-          checkInTime = pickedTime;
-          checkOutTime = TimeOfDay(
-            hour: pickedTime.hour + 9,
-            minute: pickedTime.minute,
-          );
+          if (choose == "in") {
+            checkInTime = pickedTime;
+          } else if (choose == 'out' &&
+              (checkOutTime.hour - checkInTime.hour) > 0) {
+            checkOutTime = TimeOfDay(
+              hour: pickedTime.hour,
+              minute: pickedTime.minute,
+            );
+          }
         });
       }
     }
@@ -138,39 +141,6 @@ class _RegularState extends ConsumerState<Regular> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          AppLocalizations.of(context)!.period,
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(height: 8),
-                        Text(
-                          dropdownValue,
-                          style: TextStyle(
-                            fontSize: 15,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          SizedBox(
-            width: 340,
-            height: 100,
-            child: Card(
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
                           AppLocalizations.of(context)!.date,
                           style: TextStyle(
                               fontSize: 15, fontWeight: FontWeight.bold),
@@ -204,6 +174,7 @@ class _RegularState extends ConsumerState<Regular> {
                     height: 300,
                     width: 80,
                     child: Card(
+                      color: Colors.white,
                       child: Padding(
                         padding: const EdgeInsets.all(15),
                         child: Column(
@@ -241,7 +212,7 @@ class _RegularState extends ConsumerState<Regular> {
                               children: <Widget>[
                                 TextButton(
                                   onPressed: () {
-                                    _selectDateTime(context, "");
+                                    _selectDateTime(context, "in");
                                   },
                                   child: Text(
                                     'Check-in\n${selectedDate.day}-${selectedDate.month}-${selectedDate.year} \n${checkInTime.format(context)}',
@@ -251,7 +222,7 @@ class _RegularState extends ConsumerState<Regular> {
                                 ),
                                 TextButton(
                                   onPressed: () {
-                                    _selectDateTime(context, "");
+                                    _selectDateTime(context, "out");
                                   },
                                   child: Text(
                                     'Check-out\n${selectedDate.day}-${selectedDate.month}-${selectedDate.year} \n${checkOutTime.format(context)}',
@@ -260,7 +231,7 @@ class _RegularState extends ConsumerState<Regular> {
                                   ),
                                 ),
                                 Text(
-                                  '${checkOutTime.hour - checkInTime.hour}:${checkOutTime.minute - checkInTime.minute}\n Hr(s)',
+                                  '${checkOutTime.hour - checkInTime.hour}\n Hr(s)',
                                   style: TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold),
@@ -273,7 +244,7 @@ class _RegularState extends ConsumerState<Regular> {
                               padding: EdgeInsets.symmetric(horizontal: 20),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
-                                color: Colors.blueAccent[100],
+                                color: Color.fromARGB(255, 216, 219, 227),
                               ),
                               child: DropdownButtonHideUnderline(
                                 child: DropdownButton2<String>(
@@ -319,7 +290,8 @@ class _RegularState extends ConsumerState<Regular> {
                               ),
                               onPressed: _reset,
                               child: Center(
-                                child: Text(AppLocalizations.of(context)!.reset),
+                                child:
+                                    Text(AppLocalizations.of(context)!.reset),
                               ),
                             ),
                           ],
@@ -331,7 +303,7 @@ class _RegularState extends ConsumerState<Regular> {
               ),
             ],
           ),
-          SizedBox(height: 30),
+          SizedBox(height: 120),
           Container(
             height: 50,
             width: 350,
@@ -357,26 +329,29 @@ class _RegularState extends ConsumerState<Regular> {
                 SizedBox(width: 20),
                 TextButton(
                   onPressed: () async {
-                    RegularizationData regularizationData = RegularizationData(
-                        employeeName: 'EM-3445 Santra Richards',
-                        date: selectedDate.toString(),
-                        checkInTime: checkInTime,
-                        checkOutTime: checkOutTime,
-                        hours: checkOutTime.hour - checkInTime.hour,
-                        dropdownValue: selectedValue!,
-                        status: "Pending");
-                    ref
-                        .read(regularizationProvider.notifier)
-                        .insertRegularization(regularizationData);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Pending(
-                          selectedDropdownValue: selectedValue!,
-                          role: "User",
+                    if ((checkOutTime.hour - checkInTime.hour) > 0) {
+                      RegularizationData regularizationData =
+                          RegularizationData(
+                              employeeName: 'EM-3445 Santra Richards',
+                              date: selectedDate.toString(),
+                              checkInTime: checkInTime,
+                              checkOutTime: checkOutTime,
+                              hours: checkOutTime.hour - checkInTime.hour,
+                              dropdownValue: selectedValue!,
+                              status: "Pending");
+                      ref
+                          .read(regularizationProvider.notifier)
+                          .insertRegularization(regularizationData);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Pending(
+                            selectedDropdownValue: selectedValue!,
+                            role: "User",
+                          ),
                         ),
-                      ),
-                    );
+                      );
+                    }
                   },
                   style: TextButton.styleFrom(
                     backgroundColor: Colors.green,

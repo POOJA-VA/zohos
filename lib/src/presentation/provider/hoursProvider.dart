@@ -1,22 +1,29 @@
-  import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 import 'package:zoho/src/data/datasource/local/sqflite.dart';
 
-final hrsProvider = ChangeNotifierProvider((ref) => HoursProvider());
+final hrsProvider = ChangeNotifierProvider((ref) => HoursProvider(DateTime.now()));
 
 class HoursProvider extends ChangeNotifier {
   List<double> hrs = [];
-    void setHours() async {
-      final dataSource = ProjectDataSource();
-      // print("check");
-      DateTime now = DateTime.now();
-      DateFormat dateFormat = DateFormat('EEEE');
-      if(dateFormat.format(now) == "Sunday") {
-        hrs = [00.00, 00.00, 00.00, 00.00, 00.00, 00.00, 00.00];
-      }else {
-      hrs = await dataSource.getHours();
-      }
-      notifyListeners();
+  DateTime startDate;
+  int weeks = 1; // Adjusted for single week view
+
+  HoursProvider(this.startDate);
+
+  void setHours() async {
+    final dataSource = ProjectDataSource();
+    hrs = await dataSource.getHours(startDate, weeks);
+    notifyListeners();
   }
+
+  void setPreviousWeek() {
+    startDate = startDate.subtract(Duration(days: 7));
+    setHours();
   }
+
+  void setCurrentWeek() {
+    startDate = DateTime.now().subtract(Duration(days: DateTime.now().weekday - 1));
+    setHours();
+  }
+}

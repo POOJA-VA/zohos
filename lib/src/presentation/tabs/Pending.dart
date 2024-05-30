@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:zoho/src/presentation/provider/regularProvider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Pending extends ConsumerWidget {
   final String selectedDropdownValue;
@@ -10,7 +11,6 @@ class Pending extends ConsumerWidget {
       {Key? key, required this.selectedDropdownValue, required this.role})
       : super(key: key);
   final String role;
-
   // bool isFirst = true;
 
   @override
@@ -31,12 +31,12 @@ class Pending extends ConsumerWidget {
               fit: BoxFit.cover,
             ),
             Text(
-              'No Records Found',
+              AppLocalizations.of(context)!.norecords,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
             ),
             SizedBox(height: 5),
             Text(
-              'There are no records to \ndisplay right now.',
+              AppLocalizations.of(context)!.norecordsnow,
               textAlign: TextAlign.center,
             ),
           ],
@@ -76,14 +76,14 @@ class Pending extends ConsumerWidget {
                       ),
                     ),
                     Text(
-                      'Check-In Time: ${regularizationData.checkInTime}',
+                      'Check-In Time: ${regularizationData.checkInTime.hour.toString().padLeft(2, '0')}:${regularizationData.checkInTime.minute.toString().padLeft(2, '0')}',
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.grey,
                       ),
                     ),
                     Text(
-                      'Check-Out Time: ${regularizationData.checkOutTime}',
+                      'Check-Out Time: ${regularizationData.checkOutTime.hour.toString().padLeft(2, '0')}:${regularizationData.checkOutTime.minute.toString().padLeft(2, '0')}',
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.grey,
@@ -97,54 +97,66 @@ class Pending extends ConsumerWidget {
                       ),
                     ),
                     Text(
-                      'Dropdown Value: ${regularizationData.dropdownValue}',
+                      'Reason: ${regularizationData.dropdownValue}',
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.grey,
                       ),
                     ),
-                    role == "Admin" ? 
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        TextButton(
-                          style: ButtonStyle(
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(18.0),
-                                  side: BorderSide(
-                                      color: Color.fromARGB(255, 9, 47, 15))),
-                            ),
-                          ),
-                          onPressed: () {
-                            ref.read(regularizationProvider.notifier).updateRegularization(regularizationData.id,  "Approved");
-                            ref.read(statusProvider).setPendingList();
-                            ref.read(statusProvider).setApprovedList();
-                            ref.read(statusProvider).setRejectedList();
-                          },
-                          child: Text('Approve'),
-                        ),
-                        TextButton(
-                          style: ButtonStyle(
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(18.0),
-                                  side: BorderSide(color: Colors.red)),
-                            ),
-                          ),
-                          onPressed: () {
-                            ref.read(regularizationProvider.notifier).updateRegularization(regularizationData.id,  "Rejected");
-                            ref.read(statusProvider).setPendingList();
-                            ref.read(statusProvider).setApprovedList();
-                            ref.read(statusProvider).setRejectedList();
-                            print("Rejected");
-                          },
-                          child: Text('Reject'),
-                        ),
-                      ],
-                    ): SizedBox.shrink(),
+                    role == "Admin"
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              SizedBox(width: 10),
+                              TextButton(
+                                onPressed: () {
+                                  ref
+                                      .read(regularizationProvider.notifier)
+                                      .updateRegularization(
+                                          regularizationData.id, "Approved");
+                                  ref.read(statusProvider).setPendingList();
+                                  ref.read(statusProvider).setApprovedList();
+                                  ref.read(statusProvider).setRejectedList();
+                                  showNotification("Status Updated", "Your regularization has been Approved");
+                                },
+                                style: TextButton.styleFrom(
+                                  backgroundColor: Colors.green,
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 50, vertical: 10),
+                                ),
+                                child: Text(
+                                  'Approve',
+                                  style: TextStyle(
+                                      fontSize: 12, color: Colors.white),
+                                ),
+                              ),
+
+                              SizedBox(width: 10),
+                              TextButton(
+                                onPressed: () {
+                                  ref
+                                      .read(regularizationProvider.notifier)
+                                      .updateRegularization(
+                                          regularizationData.id, "Rejected");
+                                  ref.read(statusProvider).setPendingList();
+                                  ref.read(statusProvider).setApprovedList();
+                                  ref.read(statusProvider).setRejectedList();
+                                  showNotification("Status Updated", "Your regularization has been Rejected");
+                                },
+                                style: TextButton.styleFrom(
+                                  backgroundColor: Colors.redAccent,
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 50, vertical: 10),
+                                ),
+                                child: Text(
+                                  'Reject',
+                                  style: TextStyle(
+                                      fontSize: 12, color: Colors.white),
+                                ),
+                              ),
+                            ],
+                          )
+                        : SizedBox.shrink(),
                   ],
                 ),
               ),

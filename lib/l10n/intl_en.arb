@@ -14,7 +14,7 @@
     "rejected": "Rejected",
     "location": "Location",
     "welcomeAdmin": "Welcome Admin",
-    "generally": "Generally 09:30 AM to 7:00 PM",
+    "generally": "Generally 09:00 AM to 7:00 PM",
     "userlist": "User List",
     "showusers": "Show Users",
     "regularization": "Regularization",
@@ -32,5 +32,10 @@
     "username": "Username",
     "password": "Password",
     "confirmpassword": "Confirm Password",
-    "signup": "Sign up"
+    "signup": "Sign up",
+    "checkin": "checkin",
+    "checkout": "checkout",
+    "record": "No check-in/check-out records available",
+    "norecords": "No Records Found",
+    "norecordsnow": "There are no records to \ndisplay right now."
 }

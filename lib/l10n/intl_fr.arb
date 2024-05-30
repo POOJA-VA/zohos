@@ -14,7 +14,7 @@
     "rejected": "Rejeté",
     "location": "Emplacement",
     "welcomeAdmin": "Bienvenue administrateur",
-    "generally": "Généralement de 09h30 à 19h00",
+    "generally": "Généralement de 09h00 à 19h00",
     "userlist": "Liste des utilisateurs",
     "showusers": "Afficher les utilisateurs",
     "regularisation": "Régularisation",
@@ -32,5 +32,10 @@
     "username": "Nom d'utilisateur",
     "password": "Mot de passe",
     "confirmpassword": "Confirmer le mot de passe",
-    "signup": "Inscrivez-vous"
+    "signup": "Inscrivez-vous",
+    "checkin": "Enregistrement",
+    "checkout": "Départ",
+    "record": "Aucun enregistrement d'entrée/sortie disponible",
+    "norecords": "Aucun enregistrement trouvé",
+    "norecordsnow": "Il n'y a aucun enregistrement à afficher pour le moment."
 }

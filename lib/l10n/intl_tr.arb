@@ -14,7 +14,7 @@
     "rejected": "Reddedilmiş",
     "location": "Konum",
     "welcomeAdmin": "Hoşgeldiniz Yönetici",
-    "generally": "Genellikle 09:30 - 19:00 arası",
+    "generally": "Genellikle 09:00 - 19:00 arası",
     "userlist": "Kullanıcı Listesi",
     "showusers": "Kullanıcıları Göster",
     "regularization": "Düzenleme",
@@ -32,5 +32,10 @@
     "username": "Kullanıcı Adı",
     "password": "Şifre",
     "confirmpassword": "Şifreyi Onayla",
-    "signup": "Kaydol"
+    "signup": "Kaydol",
+    "checkin": "Giriş",
+    "checkout": "Çıkış",
+    "record": "Giriş/Çıkış kayıtları bulunamadı",
+    "norecords": "Kayıt bulunamadı",
+    "norecordsnow": "Şu anda görüntülenecek kayıt yok."
 }

@@ -8,7 +8,7 @@ class ProjectDataSource implements ProjectRepository {
   final String databaseName = "zohos.db";
 
   final String users =
-      "create table users (userId INTEGER PRIMARY KEY AUTOINCREMENT, userName TEXT UNIQUE, userPassword TEXT)";
+      "CREATE TABLE users (userId INTEGER PRIMARY KEY AUTOINCREMENT, userName TEXT UNIQUE, userPassword TEXT)";
 
   final String regularization =
       "CREATE TABLE regularization (id INTEGER PRIMARY KEY AUTOINCREMENT, employeeName TEXT, date TEXT, checkInTime TEXT, checkOutTime TEXT, hours INTEGER, dropdownValue TEXT, status TEXT)";
@@ -19,7 +19,7 @@ class ProjectDataSource implements ProjectRepository {
   Future<Database> initDB() async {
     final String databasePath = await getDatabasesPath();
     final String path = join(databasePath, databaseName);
-      // await deleteDatabase(path);
+    // await deleteDatabase(path);
     return openDatabase(path, version: 1, onCreate: (db, version) async {
       await db.execute(users);
       await db.execute(regularization);
@@ -85,7 +85,7 @@ class ProjectDataSource implements ProjectRepository {
     final Database db = await initDB();
     final List<Map<String, dynamic>> result = await db
         .query('regularization', where: "status=?", whereArgs: ["Approved"]);
-    await db.close();
+    // await db.close();
     return result.map((map) => RegularizationData.fromMap(map)).toList();
   }
 
@@ -94,7 +94,7 @@ class ProjectDataSource implements ProjectRepository {
     final Database db = await initDB();
     final List<Map<String, dynamic>> result = await db
         .query('regularization', where: "status=?", whereArgs: ["Rejected"]);
-    await db.close();
+    // await db.close();
     return result.map((map) => RegularizationData.fromMap(map)).toList();
   }
 
@@ -106,7 +106,7 @@ class ProjectDataSource implements ProjectRepository {
       data.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
-    await db.close();
+    // await db.close();
   }
 
   Future<void> updateRegularization(int id, String status) async {
@@ -117,7 +117,7 @@ class ProjectDataSource implements ProjectRepository {
       where: "id = ?",
       whereArgs: [id],
     );
-    await db.close();
+    // await db.close();
   }
 
   Future<void> insertReport(Map<String, dynamic> data) async {
@@ -141,12 +141,13 @@ class ProjectDataSource implements ProjectRepository {
       double final_hrs =
           double.parse(hrs.first.values.elementAt(0).replaceAll(":", "."));
       double current_hrs = double.parse(data['hours'].replaceAll(":", "."));
-
+      String total_hrs =
+          (final_hrs + current_hrs).toString().replaceAll(".", ":");
       await db.rawUpdate(
           "UPDATE checkinout SET hours = ?,checkout = ? WHERE title = '$formattedDate'",
-          [final_hrs + current_hrs, data['checkout']]);
+          [total_hrs, data['checkout']]);
     }
-    await db.close();
+    // await db.close();
   }
 
   Future<List<Map<String, dynamic>>> getReports() async {
@@ -156,44 +157,64 @@ class ProjectDataSource implements ProjectRepository {
     return result;
   }
 
-  Future<List<double>> getHours() async {
+  Future<List<double>> getHours(DateTime startDate, int weeks) async {
     final Database db = await initDB();
-    List<DateTime> currentWeekList = getDateList();
+    List<DateTime> lastWeekList = getDateList(startDate, weeks);
+    // List<DateTime> lastWeekList = getDateList(startDate);
     List<double> hours = [00.00, 00.00, 00.00, 00.00, 00.00, 00.00, 00.00];
     DateFormat dateFormat = DateFormat('EEEE, dd MMMM');
-    for (DateTime date in currentWeekList) {
+    for (DateTime date in lastWeekList) {
       List<Map<String, dynamic>> hour = await db.rawQuery(
           "SELECT title, hours FROM checkinout WHERE title='${dateFormat.format(date)}'");
+      // print('$date============================');
       if (hour.isNotEmpty && hour.length > 0) {
         if (hour.first['title'].split(",")[0] == 'Sunday') {
-          hours[1] = double.parse(hour.first['hours'].replaceAll(":", "."));
+          hours[0] = double.parse(hour.first['hours'].replaceAll(":", "."));
         } else if (hour.first['title'].split(",")[0] == 'Monday') {
           hours[1] = double.parse(hour.first['hours'].replaceAll(":", "."));
         } else if (hour.first['title'].split(",")[0] == 'Tuesday') {
-          hours[1] = double.parse(hour.first['hours'].replaceAll(":", "."));
+          hours[2] = double.parse(hour.first['hours'].replaceAll(":", "."));
         } else if (hour.first['title'].split(",")[0] == 'Wednesday') {
-          hours[1] = double.parse(hour.first['hours'].replaceAll(":", "."));
+          hours[3] = double.parse(hour.first['hours'].replaceAll(":", "."));
         } else if (hour.first['title'].split(",")[0] == 'Thursday') {
-          hours[1] = double.parse(hour.first['hours'].replaceAll(":", "."));
+          hours[4] = double.parse(hour.first['hours'].replaceAll(":", "."));
         } else if (hour.first['title'].split(",")[0] == 'Friday') {
-          hours[1] = double.parse(hour.first['hours'].replaceAll(":", "."));
+          hours[5] = double.parse(hour.first['hours'].replaceAll(":", "."));
         } else if (hour.first['title'].split(",")[0] == 'Saturday') {
-          hours[1] = double.parse(hour.first['hours'].replaceAll(":", "."));
+          hours[6] = double.parse(hour.first['hours'].replaceAll(":", "."));
         }
       }
     }
+    // print('$hours');
     return hours;
   }
 
-  List<DateTime> getDateList() {
-    DateTime now = DateTime.now();
-    DateTime sunday = now.subtract(Duration(days: now.weekday - 1));
+  // List<DateTime> getDateList(DateTime startDate) {
+  //   DateTime now = DateTime.now();
+  //   DateTime sunday = now.subtract(Duration(days: now.weekday - 1));
+  //   List<DateTime> weekDates = [];
+  //   weekDates.add(sunday);
+  //   for (int i = 1; i < 7; i++) {
+  //     DateTime nextDay = sunday.add(Duration(days: i));
+  //     weekDates.add(nextDay);
+  //   }
+  //   print('$weekDates');
+  //   return weekDates;
+  // }
+
+  List<DateTime> getDateList(DateTime startDate, int weeks) {
     List<DateTime> weekDates = [];
-    weekDates.add(sunday);
-    for (int i = 1; i < 7; i++) {
-      DateTime nextDay = sunday.add(Duration(days: i));
-      weekDates.add(nextDay);
+    // print('Start date: $startDate');
+    for (int j = 0; j < weeks; j++) {
+      DateTime sunday =
+          startDate.subtract(Duration(days: startDate.weekday - 1 + j * 7));
+      weekDates.add(sunday);
+      for (int i = 1; i < 7; i++) {
+        DateTime nextDay = sunday.add(Duration(days: i));
+        weekDates.add(nextDay);
+      }
     }
+    // print('$weekDates');
     return weekDates;
   }
 }

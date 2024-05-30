@@ -62,11 +62,11 @@ class _LanguageState extends ConsumerState<Language> {
 
   String _getLanguageName(Locale locale) {
     if (locale.languageCode == 'en') {
-      return 'English';
+      return 'En';
     } else if (locale.languageCode == 'tr') {
-      return 'Turkish';
+      return 'Tu';
     } else if (locale.languageCode == 'fr') {
-      return 'French';
+      return 'Fr';
     }
     return '';
   }

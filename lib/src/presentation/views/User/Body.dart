@@ -6,7 +6,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:zoho/src/presentation/provider/changeNotifer.dart';
 import 'package:zoho/src/presentation/views/User/login.dart';
 import 'package:zoho/src/presentation/widgets/language.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Body extends StatelessWidget {
   final CheckInProvider checkInProvider = CheckInProvider();
@@ -14,7 +13,7 @@ class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DateTime now = DateTime.now();
-    String formattedDate = DateFormat('EEE, dd MMM').format(now);
+    String formattedDate = DateFormat('EEEE, dd MMMM').format(now);
     return ChangeNotifierProvider.value(
       value: checkInProvider,
       child: Consumer<CheckInProvider>(
@@ -103,22 +102,64 @@ class Body extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              ElevatedButton(
-                                child: Text('Close'),
-                                onPressed: () {
-                                  Navigator.pop(
-                                      context); // Close the bottom sheet
-                                },
-                              ),
-                              ElevatedButton(
-                                child: Text('Log Out'),
-                                onPressed: () {
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => LoginScreen()),
-                                  );
-                                },
+                              SizedBox(height: 20),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment
+                                    .spaceEvenly, // Adjust alignment as needed
+                                children: [
+                                  SizedBox(
+                                    height: 40, // Set desired height
+                                    width: 150, // Set desired width
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  LoginScreen()),
+                                        );
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor:
+                                            Color.fromARGB(255, 75, 195, 255),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(50),
+                                        ),
+                                      ),
+                                      child: Text(
+                                        'LOG OUT',
+                                        style: TextStyle(
+                                            color: Colors
+                                                .white), // Set text color to white
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 40, // Set desired height
+                                    width: 150, // Set desired width
+                                    child: OutlinedButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      style: OutlinedButton.styleFrom(
+                                        side: BorderSide(
+                                            color: Color.fromARGB(
+                                                255, 75, 195, 255)),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(50),
+                                        ),
+                                      ),
+                                      child: Text(
+                                        'CLOSE',
+                                        style: TextStyle(
+                                            color: Color.fromARGB(255, 75, 195,
+                                                255)), // Set text color to white
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
@@ -152,9 +193,9 @@ class Body extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Lottie.network(
-                            'https://lottie.host/06b0b546-803e-4e9a-8ad9-e34ce9846843/FYM3m3vEGr.json',
+                            'https://lottie.host/512b3520-67ee-49f9-8392-e7927893f4b5/dYi8Ym901j.json',
                             width: 300,
-                            height: 230,
+                            height: 200,
                           ),
                           SizedBox(height: 20),
                           Row(
@@ -163,7 +204,7 @@ class Body extends StatelessWidget {
                               Container(
                                 decoration: BoxDecoration(
                                   border: Border.all(
-                                    color: Colors.blue,
+                                    color: Color.fromARGB(255, 75, 195, 255),
                                     width: 2,
                                   ),
                                 ),
@@ -186,7 +227,7 @@ class Body extends StatelessWidget {
                               Container(
                                 decoration: BoxDecoration(
                                   border: Border.all(
-                                    color: Colors.blue,
+                                    color: Color.fromARGB(255, 75, 195, 255),
                                     width: 2,
                                   ),
                                 ),
@@ -210,7 +251,7 @@ class Body extends StatelessWidget {
                               Container(
                                 decoration: BoxDecoration(
                                   border: Border.all(
-                                    color: Colors.blue,
+                                    color: Color.fromARGB(255, 75, 195, 255),
                                     width: 2,
                                   ),
                                 ),
@@ -231,12 +272,17 @@ class Body extends StatelessWidget {
                               ),
                             ],
                           ),
-                          SizedBox(height: 20),
+                          SizedBox(height: 15),
+                          Text(
+                            formattedDate,
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(height: 15),
                           Text(
                             AppLocalizations.of(context)!.generally,
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
-                          SizedBox(height: 20),
+                          SizedBox(height: 15),
                           ElevatedButton(
                             onPressed: () {
                               checkInProvider.toggleCheckIn();
@@ -247,7 +293,10 @@ class Body extends StatelessWidget {
                               ),
                               padding: EdgeInsets.symmetric(
                                   horizontal: 80, vertical: 10),
-                              backgroundColor: Colors.blue,
+                              // Dynamically set the background color based on isCheckedIn value
+                              backgroundColor: checkInProvider.isCheckedIn
+                                  ? Colors.red
+                                  : Color.fromARGB(255, 92, 212, 88),
                             ),
                             child: Text(
                               checkInProvider.isCheckedIn

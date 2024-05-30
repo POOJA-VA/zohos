@@ -68,9 +68,9 @@ class _SignUpState extends ConsumerState<SignUp> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Lottie.network(
-                    'https://lottie.host/71c3c34a-85e3-4493-a31b-4c3e1f1ab9ca/DUF5Uht8u5.json',
+                  'https://lottie.host/b698e483-db73-4b42-b0ab-47555afabcb9/PT323qK3ix.json',
                     width: 300,
-                    height: 230,
+                    height: 350,
                   ),
                   Container(
                     margin: const EdgeInsets.all(8),
@@ -79,7 +79,7 @@ class _SignUpState extends ConsumerState<SignUp> {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
                         color:
-                            Color.fromARGB(255, 102, 65, 188).withOpacity(.2)),
+                            Color.fromARGB(218, 71, 167, 163).withOpacity(.2)),
                     child: TextFormField(
                       controller: usernameController,
                       validator: (value) {
@@ -105,7 +105,7 @@ class _SignUpState extends ConsumerState<SignUp> {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
                         color:
-                            Color.fromARGB(255, 102, 65, 188).withOpacity(.2)),
+                            Color.fromARGB(218, 71, 167, 163).withOpacity(.2)),
                     child: TextFormField(
                       controller: passwordController,
                       validator: (value) {
@@ -113,7 +113,7 @@ class _SignUpState extends ConsumerState<SignUp> {
                           return "Password is required";
                         }
                         if (!isValidPassword(value)) {
-                          return "Password must contain at least 8 characters, including one uppercase letter, one lowercase letter, and one number";
+                          return "Password must contain atleast 5 number";
                         }
                         return null;
                       },
@@ -140,7 +140,7 @@ class _SignUpState extends ConsumerState<SignUp> {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
                         color:
-                            Color.fromARGB(255, 102, 65, 188).withOpacity(.2)),
+                            Color.fromARGB(218, 71, 167, 163).withOpacity(.2)),
                     child: TextFormField(
                       controller: confirmPasswordController,
                       validator: (value) {
@@ -168,13 +168,13 @@ class _SignUpState extends ConsumerState<SignUp> {
                                   : Icons.visibility_off))),
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  SizedBox(height: 10),
                   Container(
                     height: 55,
                     width: MediaQuery.of(context).size.width * .9,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
-                        color: Color.fromARGB(255, 102, 65, 188)),
+                        color: Color.fromARGB(218, 71, 167, 163)),
                     child: TextButton(
                         onPressed: () {
                           // print('Sign Up button pressed');
@@ -184,7 +184,8 @@ class _SignUpState extends ConsumerState<SignUp> {
                         },
                         child: const Text(
                           "SIGN UP",
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(
+                              color: Color.fromARGB(255, 109, 108, 108)),
                         )),
                   ),
                   Row(
@@ -198,8 +199,12 @@ class _SignUpState extends ConsumerState<SignUp> {
                               MaterialPageRoute(
                                   builder: (context) => const LoginScreen()));
                         },
-                        child: Text(AppLocalizations.of(context)!.login),
-                      )
+                        child: Text(
+                          AppLocalizations.of(context)!.login,
+                          style: TextStyle(
+                              color: Color.fromARGB(218, 71, 167, 163)),
+                        ),
+                      ),
                     ],
                   )
                 ],
@@ -212,11 +217,11 @@ class _SignUpState extends ConsumerState<SignUp> {
   }
 
   static final RegExp emailRegex = RegExp(
-    r'^[A-Z][a-zA-Z0-9._-]{4,}$',
+    r'^[A-Z][a-zA-Z0-9._-]{4,14}$',
   );
 
   static final RegExp passwordRegex = RegExp(
-    r'^(?=.*\d)[A-Za-z\d]{5,}$',
+    r'^(?=.*\d)[A-Za-z\d]{5,10}$',
   );
 
   static bool isValidEmail(String email) {

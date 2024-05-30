@@ -21,7 +21,7 @@ class BarGraph extends StatelessWidget {
     myBarData.initializeBarData();
     return BarChart(
       BarChartData(
-        maxY: 100,
+        maxY: 24,
         minY: 0,
         gridData: FlGridData(show: false),
         borderData: FlBorderData(show: false),
@@ -40,11 +40,11 @@ class BarGraph extends StatelessWidget {
               barRods: [
                 BarChartRodData(
                   toY: data.y,
-                  color: Colors.deepOrange,
+                  color: Color.fromARGB(218, 71, 167, 163),
                   width: 25,
                   borderRadius: BorderRadius.circular(4),
                   backDrawRodData: BackgroundBarChartRodData(
-                      show: true, toY: 100, color: Colors.grey),
+                      show: true, toY: 24, color: Color.fromARGB(255, 221, 217, 217)),
                 ),
               ],
             ),
@@ -57,7 +57,7 @@ class BarGraph extends StatelessWidget {
 
 Widget getBottomTitles(double value, TitleMeta meta) {
   const style = TextStyle(
-    color: Colors.deepOrange,
+    color: Color.fromARGB(218, 71, 167, 163),
     fontWeight: FontWeight.bold,
     fontSize: 14,
   );

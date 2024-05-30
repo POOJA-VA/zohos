@@ -54,41 +54,39 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     if (username.contains('Admin') && password == 'Admin@12') {
       isAuthenticated = true;
       Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (_) => Admin(),
-          ),
-        );
+        context,
+        MaterialPageRoute(
+          builder: (_) => Admin(),
+        ),
+      );
     } else {
       isAuthenticated =
           await ref.read(authProvider.notifier).login(username, password);
       if (isAuthenticated) {
-      Navigator.pushReplacement(
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (_) => Home(),
           ),
         );
-    } else {
-      showDialog(
-        context: context,
-        builder: (_) => AlertDialog(
-          title: const Text('Error'),
-          content: const Text('Invalid username or password'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('OK'),
-            ),
-          ],
-        ),
-      );
+      } else {
+        showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+            title: const Text('Error'),
+            content: const Text('Invalid username or password'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+        );
+      }
     }
-    }
-
-    
   }
 
   final formKey = GlobalKey<FormState>();
@@ -103,8 +101,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               key: formKey,
               child: Column(
                 children: [
-                  Lottie.network(
-                    'https://lottie.host/71c3c34a-85e3-4493-a31b-4c3e1f1ab9ca/DUF5Uht8u5.json',
+                  Lottie.asset(
+                    'assets/login.json',
                     width: 300,
                     height: 230,
                   ),
@@ -116,7 +114,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
                         color:
-                            Color.fromARGB(255, 102, 65, 188).withOpacity(.2)),
+                             Color.fromARGB(218, 71, 167, 163).withOpacity(.2)),
                     child: TextFormField(
                       controller: _usernameController,
                       validator: (value) {
@@ -142,7 +140,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
                         color:
-                            Color.fromARGB(255, 98, 100, 236).withOpacity(.2)),
+                             Color.fromARGB(218, 71, 167, 163).withOpacity(.2)),
                     child: TextFormField(
                       controller: _passwordController,
                       validator: (value) {
@@ -173,7 +171,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     width: MediaQuery.of(context).size.width * .9,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
-                        color: Color.fromARGB(255, 102, 65, 188)),
+                        color:  Color.fromARGB(218, 71, 167, 163)),
                     child: TextButton(
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
@@ -182,7 +180,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         },
                         child: Text(
                           AppLocalizations.of(context)!.login,
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 109, 108, 108),
+                          ),
                         )),
                   ),
                   Row(
@@ -198,7 +198,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                 MaterialPageRoute(
                                     builder: (_) => const SignUp()));
                           },
-                          child: Text(AppLocalizations.of(context)!.register)),
+                          child: Text(AppLocalizations.of(context)!.register,
+                          style:
+                              TextStyle(color: Color.fromARGB(218, 71, 167, 163)),)),
                     ],
                   ),
                   isLoginTrue
@@ -217,11 +219,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   static final RegExp emailRegex = RegExp(
-    r'^[A-Z][a-zA-Z0-9._-]{4,}$',
+    r'^[A-Z][a-zA-Z0-9._-]{4,14}$',
   );
 
   static final RegExp passwordRegex = RegExp(
-    r'^(?=.*\d)[A-Za-z\d]{5,}$',
+    r'^(?=.*\d)[A-Za-z\d]{5,10}$',
   );
 
   static bool isValidEmail(String email) {

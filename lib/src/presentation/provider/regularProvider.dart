@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:zoho/src/data/datasource/local/sqflite.dart';
 import 'package:zoho/src/data/repository/login.dart';
@@ -29,7 +30,27 @@ final regularizationProvider =
     StateNotifierProvider<RegularizationProvider,List<RegularizationData>>(
         (ref) => RegularizationProvider());
 
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+Future<void> showNotification(String title, String desc) async {
+  // Define notification details
+   AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
+    'your_channel_id',
+    title,
+    channelDescription: desc,
+    importance: Importance.max,
+    priority: Priority.high,
+    // Configure notification actions
+  );
+  final NotificationDetails platformChannelSpecifics = NotificationDetails(android: androidPlatformChannelSpecifics);
 
+  await flutterLocalNotificationsPlugin.show(
+    UniqueKey().hashCode, // Notification ID
+    title,
+    desc,
+    platformChannelSpecifics,
+    payload: 'status',
+  );
+}
 
 class RegularizationProvider extends StateNotifier<List<RegularizationData>> {
   RegularizationProvider() : super([]);
