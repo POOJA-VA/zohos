@@ -67,8 +67,8 @@ class _SignUpState extends ConsumerState<SignUp> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Lottie.network(
-                  'https://lottie.host/b698e483-db73-4b42-b0ab-47555afabcb9/PT323qK3ix.json',
+                  Lottie.asset(
+                    'assets/register.json',
                     width: 300,
                     height: 350,
                   ),

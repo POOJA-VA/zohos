@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:zoho/src/presentation/provider/regularProvider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -7,10 +8,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class Approved extends ConsumerWidget {
   const Approved({super.key});
 
-  // bool isFirst = true;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-          ref.read(statusProvider).setApprovedList();
+    ref.read(statusProvider).setApprovedList();
     final approvedDataList = ref.watch(statusProvider).approvedList;
     if (approvedDataList.isEmpty || approvedDataList.length == 0) {
       return Center(
@@ -39,63 +39,68 @@ class Approved extends ConsumerWidget {
         itemCount: approvedDataList.length,
         itemBuilder: (context, index) {
           final regularizationData = approvedDataList[index];
-          return SizedBox(
-            width: 300,
-            height: 220,
-            child: Card(
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          regularizationData.employeeName,
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
+                    final dateFormat = DateFormat('yyyy-MM-dd');
+          final formattedDate =
+              dateFormat.format(DateTime.parse(regularizationData.date));
+          return Center(
+            child: SizedBox(
+              width: 340,
+              height: 180,
+              child: Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            regularizationData.employeeName,
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
+                        ],
+                      ),
+                      Text(
+                        'Date: $formattedDate',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey,
                         ),
-                      ],
-                    ),
-                    Text(
-                      'Date: ${regularizationData.date}',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey,
                       ),
-                    ),
-                    Text(
-                      'Check-In Time: ${regularizationData.checkInTime}',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey,
+                      Text(
+                        'Check-In Time: ${regularizationData.checkInTime.hour.toString().padLeft(2, '0')}:${regularizationData.checkInTime.minute.toString().padLeft(2, '0')}',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey,
+                        ),
                       ),
-                    ),
-                    Text(
-                      'Check-Out Time: ${regularizationData.checkOutTime}',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey,
+                      Text(
+                        'Check-Out Time: ${regularizationData.checkOutTime.hour.toString().padLeft(2, '0')}:${regularizationData.checkOutTime.minute.toString().padLeft(2, '0')}',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey,
+                        ),
                       ),
-                    ),
-                    Text(
-                      'Hours: ${regularizationData.hours}',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey,
+                      Text(
+                        'Hours: ${regularizationData.hours}',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey,
+                        ),
                       ),
-                    ),
-                    Text(
-                      'Reason: ${regularizationData.dropdownValue}',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey,
+                      Text(
+                        'Reason: ${regularizationData.dropdownValue}',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

@@ -35,6 +35,7 @@ class Body extends StatelessWidget {
                     context: context,
                     builder: (BuildContext context) {
                       return SizedBox(
+                        width: 340,
                         height: 400,
                         child: Center(
                           child: Column(
@@ -50,7 +51,8 @@ class Body extends StatelessWidget {
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 20)),
-                              Text('Product Designer',
+                              Text(
+                                  AppLocalizations.of(context)!.productdesigner,
                                   style: TextStyle(
                                       fontSize: 15, color: Colors.grey)),
                               SizedBox(
@@ -65,7 +67,7 @@ class Body extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Text(
-                                        'Date',
+                                        AppLocalizations.of(context)!.date,
                                         style: TextStyle(
                                           fontSize: 14,
                                           color: Colors.grey,
@@ -85,7 +87,8 @@ class Body extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Text(
-                                        'Employee Id',
+                                        AppLocalizations.of(context)!
+                                            .employeeid,
                                         style: TextStyle(
                                           fontSize: 14,
                                           color: Colors.grey,
@@ -128,7 +131,7 @@ class Body extends StatelessWidget {
                                         ),
                                       ),
                                       child: Text(
-                                        'LOG OUT',
+                                        AppLocalizations.of(context)!.logout,
                                         style: TextStyle(
                                             color: Colors
                                                 .white), // Set text color to white
@@ -152,7 +155,7 @@ class Body extends StatelessWidget {
                                         ),
                                       ),
                                       child: Text(
-                                        'CLOSE',
+                                        AppLocalizations.of(context)!.close,
                                         style: TextStyle(
                                             color: Color.fromARGB(255, 75, 195,
                                                 255)), // Set text color to white
@@ -187,13 +190,13 @@ class Body extends StatelessWidget {
                 children: <Widget>[
                   Card(
                     child: SizedBox(
-                      width: 300,
-                      height: 500,
+                      width: 340,
+                      height: 600,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Lottie.network(
-                            'https://lottie.host/512b3520-67ee-49f9-8392-e7927893f4b5/dYi8Ym901j.json',
+                          Lottie.asset(
+                            'assets/home.json',
                             width: 300,
                             height: 200,
                           ),

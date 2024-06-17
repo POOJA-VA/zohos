@@ -45,11 +45,11 @@ class Admin extends StatelessWidget {
                                   'https://media.istockphoto.com/id/1396644902/photo/businesswoman-posing-and-smiling-during-a-meeting-in-an-office.jpg?s=612x612&w=0&k=20&c=7wzUE1CRFOccGnps-XZWOJIyDvqA3xGbL2c49PU5_m8=',
                                 ),
                               ),
-                              Text('Santra Richard',
+                              Text('Jessie',
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 20)),
-                              Text('Project Manager',
+                              Text('Admin',
                                   style: TextStyle(
                                       fontSize: 15, color: Colors.grey)),
                               SizedBox(
@@ -101,22 +101,64 @@ class Admin extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              ElevatedButton(
-                                child: Text('Close'),
-                                onPressed: () {
-                                  Navigator.pop(
-                                      context); // Close the bottom sheet
-                                },
-                              ),
-                              ElevatedButton(
-                                child: Text('Log Out'),
-                                onPressed: () {
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => LoginScreen()),
-                                  );
-                                },
+                              SizedBox(height: 20),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment
+                                    .spaceEvenly, // Adjust alignment as needed
+                                children: [
+                                  SizedBox(
+                                    height: 40,
+                                    width: 150,
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  LoginScreen()),
+                                        );
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor:
+                                            Color.fromARGB(255, 75, 195, 255),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(50),
+                                        ),
+                                      ),
+                                      child: Text(
+                                        AppLocalizations.of(context)!.logout,
+                                        style: TextStyle(
+                                            color: Colors
+                                                .white),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 40, // Set desired height
+                                    width: 150, // Set desired width
+                                    child: OutlinedButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      style: OutlinedButton.styleFrom(
+                                        side: BorderSide(
+                                            color: Color.fromARGB(
+                                                255, 75, 195, 255)),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(50),
+                                        ),
+                                      ),
+                                      child: Text(
+                                        AppLocalizations.of(context)!.close,
+                                        style: TextStyle(
+                                            color: Color.fromARGB(255, 75, 195,
+                                                255)), // Set text color to white
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
@@ -127,10 +169,12 @@ class Admin extends StatelessWidget {
                 },
               ),
             ),
-            body: Approvals(role: "Admin",),
+            body: Approvals(
+              role: "Admin",
+            ),
           );
         },
       ),
     );
   }
-}
+}  

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:zoho/src/presentation/tabs/Approved.dart';
 import 'package:zoho/src/presentation/tabs/Pending.dart';
 import 'package:zoho/src/presentation/tabs/Rejected.dart';
-import 'package:zoho/src/presentation/views/User/Regularisation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Approvals extends StatefulWidget {
@@ -29,20 +28,6 @@ class _ApprovalsState extends State<Approvals>
       appBar: AppBar(
         title: widget.role == "User" ? Text(AppLocalizations.of(context)!.approvals,
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25)): Text(""),
-        actions: <Widget>[
-          widget.role == "User" ? IconButton(
-            icon: Icon(
-              Icons.add_sharp,
-              color: Colors.black,
-            ),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const Regular()),
-              );
-            },
-          ) : Text("")
-        ],
         bottom: TabBar(
           controller: _tabController,
           tabs: <Widget>[

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:zoho/src/presentation/provider/apiProvider.dart';import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:zoho/src/presentation/provider/apiProvider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class UserList extends ConsumerWidget {
   const UserList({Key? key}) : super(key: key);
@@ -30,13 +31,12 @@ class UserList extends ConsumerWidget {
           );
         },
       ),
-
-       floatingActionButton: SizedBox(
+      floatingActionButton: SizedBox(
         width: 150,
         height: 50,
         child: FloatingActionButton(
-        onPressed: () => ref.read(userListProvider.notifier).fetchUsers(),
-        child: Text(AppLocalizations.of(context)!.showusers),
+          onPressed: () => ref.read(userListProvider.notifier).fetchUsers(),
+          child: Text(AppLocalizations.of(context)!.showusers),
         ),
       ),
     );

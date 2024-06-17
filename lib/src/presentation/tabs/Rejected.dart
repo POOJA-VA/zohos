@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:zoho/src/presentation/provider/regularProvider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -9,7 +10,7 @@ class Rejected extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-      ref.read(statusProvider).setRejectedList();
+    ref.read(statusProvider).setRejectedList();
     final rejectedDataList = ref.watch(statusProvider).rejectedList;
     if (rejectedDataList.isEmpty || rejectedDataList.length == 0) {
       return Center(
@@ -38,9 +39,13 @@ class Rejected extends ConsumerWidget {
         itemCount: rejectedDataList.length,
         itemBuilder: (context, index) {
           final regularizationData = rejectedDataList[index];
-          return SizedBox(
-            width: 300,
-            height: 220,
+          final dateFormat = DateFormat('yyyy-MM-dd');
+          final formattedDate =
+              dateFormat.format(DateTime.parse(regularizationData.date));
+          return Center(
+              child: SizedBox(
+            width: 340,
+            height: 180,
             child: Card(
               child: Padding(
                 padding: const EdgeInsets.all(20),
@@ -60,21 +65,21 @@ class Rejected extends ConsumerWidget {
                       ],
                     ),
                     Text(
-                      'Date: ${regularizationData.date}',
+                      'Date: $formattedDate',
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.grey,
                       ),
                     ),
                     Text(
-                      'Check-In Time: ${regularizationData.checkInTime}',
+                      'Check-In Time: ${regularizationData.checkInTime.hour.toString().padLeft(2, '0')}:${regularizationData.checkInTime.minute.toString().padLeft(2, '0')}',
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.grey,
                       ),
                     ),
                     Text(
-                      'Check-Out Time: ${regularizationData.checkOutTime}',
+                      'Check-Out Time: ${regularizationData.checkOutTime.hour.toString().padLeft(2, '0')}:${regularizationData.checkOutTime.minute.toString().padLeft(2, '0')}',
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.grey,
@@ -98,7 +103,7 @@ class Rejected extends ConsumerWidget {
                 ),
               ),
             ),
-          );
+          ));
         },
       );
     }

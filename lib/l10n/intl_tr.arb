@@ -37,5 +37,16 @@
     "checkout": "Çıkış",
     "record": "Giriş/Çıkış kayıtları bulunamadı",
     "norecords": "Kayıt bulunamadı",
-    "norecordsnow": "Şu anda görüntülenecek kayıt yok."
+    "norecordsnow": "Şu anda görüntülenecek kayıt yok.",    
+    "productdesigner":"Ürün Tasarımcısı",
+    "employeeid":"Çalışan Kimliği",
+    "close":"KAPAT",
+    "logout":"ÇIKIŞ YAP",
+    "instruction": "ÇALIŞANLAR İÇİN GENEL TALİMATLAR",
+    "step": "Adım 1: Çalışanlar her gün hem giriş hem de çıkış yapmalıdır.",
+    "steps": "Adım 2: Kayıtlar geçmişi kaydedilmiş kayıtlar arasında görüntülenir ve kullanıcılar çubuk grafik kullanarak bunları görebilir. Giriş ve çıkış yapmayan kullanıcılar yok sayılır.",
+    "stepss": "Adım 3: Bir kullanıcı giriş yapmayı unutursa, giriş yapmayı unuttuğu için düzenleme talebi oluşturabilir.",
+    "stepsss": "Adım 4: Bir kullanıcı belirli bir günde giriş yapar ancak çıkış yapmayı unutursa, çıkış yapmayı unuttuğu için düzenleme talebi oluşturabilir.",
+    "stepssss": "Adım 5: Bir gün içinde yalnızca bir düzenleme talebi oluşturulabilir.",
+    "language": "Dil Seçimi"
 }

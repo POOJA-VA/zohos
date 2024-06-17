@@ -101,7 +101,7 @@ class ProjectDataSource implements ProjectRepository {
   @override
   Future<void> insertRegularization(RegularizationData data) async {
     final Database db = await initDB();
-    int a = await db.insert(
+    await db.insert(
       'regularization',
       data.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
@@ -123,12 +123,9 @@ class ProjectDataSource implements ProjectRepository {
   Future<void> insertReport(Map<String, dynamic> data) async {
     DateTime now = DateTime.now();
     String formattedDate = DateFormat('EEEE, dd MMMM').format(now);
-    // print(
-    //     "${data['title']}");
     final Database db = await initDB();
     List<Map<String, dynamic>> title = await db
         .rawQuery("SELECT title FROM checkinout WHERE title='$formattedDate'");
-    print(title.length > 0);
     if (title.length == 0) {
       await db.insert(
         'checkinout',
@@ -147,7 +144,6 @@ class ProjectDataSource implements ProjectRepository {
           "UPDATE checkinout SET hours = ?,checkout = ? WHERE title = '$formattedDate'",
           [total_hrs, data['checkout']]);
     }
-    // await db.close();
   }
 
   Future<List<Map<String, dynamic>>> getReports() async {
@@ -160,27 +156,26 @@ class ProjectDataSource implements ProjectRepository {
   Future<List<double>> getHours(DateTime startDate, int weeks) async {
     final Database db = await initDB();
     List<DateTime> lastWeekList = getDateList(startDate, weeks);
-    // List<DateTime> lastWeekList = getDateList(startDate);
     List<double> hours = [00.00, 00.00, 00.00, 00.00, 00.00, 00.00, 00.00];
     DateFormat dateFormat = DateFormat('EEEE, dd MMMM');
     for (DateTime date in lastWeekList) {
       List<Map<String, dynamic>> hour = await db.rawQuery(
           "SELECT title, hours FROM checkinout WHERE title='${dateFormat.format(date)}'");
-      // print('$date============================');
+      // print('$date');
       if (hour.isNotEmpty && hour.length > 0) {
-        if (hour.first['title'].split(",")[0] == 'Sunday') {
+        if (hour.first['title'].split(",")[0] == 'Monday') {
           hours[0] = double.parse(hour.first['hours'].replaceAll(":", "."));
-        } else if (hour.first['title'].split(",")[0] == 'Monday') {
-          hours[1] = double.parse(hour.first['hours'].replaceAll(":", "."));
         } else if (hour.first['title'].split(",")[0] == 'Tuesday') {
-          hours[2] = double.parse(hour.first['hours'].replaceAll(":", "."));
+          hours[1] = double.parse(hour.first['hours'].replaceAll(":", "."));
         } else if (hour.first['title'].split(",")[0] == 'Wednesday') {
-          hours[3] = double.parse(hour.first['hours'].replaceAll(":", "."));
+          hours[2] = double.parse(hour.first['hours'].replaceAll(":", "."));
         } else if (hour.first['title'].split(",")[0] == 'Thursday') {
-          hours[4] = double.parse(hour.first['hours'].replaceAll(":", "."));
+          hours[3] = double.parse(hour.first['hours'].replaceAll(":", "."));
         } else if (hour.first['title'].split(",")[0] == 'Friday') {
-          hours[5] = double.parse(hour.first['hours'].replaceAll(":", "."));
+          hours[4] = double.parse(hour.first['hours'].replaceAll(":", "."));
         } else if (hour.first['title'].split(",")[0] == 'Saturday') {
+          hours[5] = double.parse(hour.first['hours'].replaceAll(":", "."));
+        } else if (hour.first['title'].split(",")[0] == 'Sunday') {
           hours[6] = double.parse(hour.first['hours'].replaceAll(":", "."));
         }
       }
@@ -188,19 +183,6 @@ class ProjectDataSource implements ProjectRepository {
     // print('$hours');
     return hours;
   }
-
-  // List<DateTime> getDateList(DateTime startDate) {
-  //   DateTime now = DateTime.now();
-  //   DateTime sunday = now.subtract(Duration(days: now.weekday - 1));
-  //   List<DateTime> weekDates = [];
-  //   weekDates.add(sunday);
-  //   for (int i = 1; i < 7; i++) {
-  //     DateTime nextDay = sunday.add(Duration(days: i));
-  //     weekDates.add(nextDay);
-  //   }
-  //   print('$weekDates');
-  //   return weekDates;
-  // }
 
   List<DateTime> getDateList(DateTime startDate, int weeks) {
     List<DateTime> weekDates = [];

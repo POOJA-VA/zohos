@@ -2,7 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:zoho/src/data/datasource/local/sqflite.dart';
 
-final hrsProvider = ChangeNotifierProvider((ref) => HoursProvider(DateTime.now()));
+final hrsProvider =
+    ChangeNotifierProvider((ref) => HoursProvider(DateTime.now()));
 
 class HoursProvider extends ChangeNotifier {
   List<double> hrs = [];
@@ -17,13 +18,24 @@ class HoursProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // void setPreviousWeek() {
+  //   startDate = startDate.subtract(Duration(days: 7));
+  //   setHours();
+  // }
+
   void setPreviousWeek() {
-    startDate = startDate.subtract(Duration(days: 7));
+    DateTime newStartDate = startDate.subtract(Duration(days: 7));
+    if (newStartDate.year == 2024) {
+      startDate = newStartDate;
+    } else {
+      startDate = DateTime(2024, 4);
+    }
     setHours();
   }
 
   void setCurrentWeek() {
-    startDate = DateTime.now().subtract(Duration(days: DateTime.now().weekday - 1));
+    startDate =
+        DateTime.now().subtract(Duration(days: DateTime.now().weekday - 1));
     setHours();
   }
 }

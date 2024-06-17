@@ -114,7 +114,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
                         color:
-                             Color.fromARGB(218, 71, 167, 163).withOpacity(.2)),
+                            Color.fromARGB(218, 71, 167, 163).withOpacity(.2)),
                     child: TextFormField(
                       controller: _usernameController,
                       validator: (value) {
@@ -140,7 +140,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
                         color:
-                             Color.fromARGB(218, 71, 167, 163).withOpacity(.2)),
+                            Color.fromARGB(218, 71, 167, 163).withOpacity(.2)),
                     child: TextFormField(
                       controller: _passwordController,
                       validator: (value) {
@@ -171,7 +171,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     width: MediaQuery.of(context).size.width * .9,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
-                        color:  Color.fromARGB(218, 71, 167, 163)),
+                        color: Color.fromARGB(218, 71, 167, 163)),
                     child: TextButton(
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
@@ -198,9 +198,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                 MaterialPageRoute(
                                     builder: (_) => const SignUp()));
                           },
-                          child: Text(AppLocalizations.of(context)!.register,
-                          style:
-                              TextStyle(color: Color.fromARGB(218, 71, 167, 163)),)),
+                          child: Text(
+                            AppLocalizations.of(context)!.register,
+                            style: TextStyle(
+                                color: Color.fromARGB(218, 71, 167, 163)),
+                          )),
                     ],
                   ),
                   isLoginTrue

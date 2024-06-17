@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:intl/intl.dart';
 import 'package:zoho/src/presentation/barGraph/barGraph.dart';
 import 'package:zoho/src/presentation/provider/hoursProvider.dart';
 import 'package:zoho/src/presentation/provider/reportProvider.dart';
-import 'package:zoho/src/presentation/views/User/UserList.dart';
 
 class Report extends ConsumerStatefulWidget {
   const Report({Key? key}) : super(key: key);
@@ -14,11 +14,26 @@ class Report extends ConsumerStatefulWidget {
 }
 
 class _ReportState extends ConsumerState<Report> {
+  
+  late String formattedStartDate;
+  late String formattedEndDate;
+
   @override
   void initState() {
     super.initState();
     ref.read(hrsProvider.notifier).setHours();
-    ref.read(checkInOutProvider.notifier).fetchCheckInOutList();
+    DateTime now = DateTime.now();
+    DateTime startOfWeek = now.subtract(Duration(days: now.weekday - 1));
+    DateTime endOfWeek = startOfWeek.add(Duration(days: 6));
+    ref
+        .read(checkInOutProvider.notifier)
+        .fetchCheckInOutList(startOfWeek, endOfWeek);
+  }
+
+  void _updateCheckInOutList(DateTime startDate, DateTime endDate) {
+    ref
+        .read(checkInOutProvider.notifier)
+        .fetchCheckInOutList(startDate, endDate);
   }
 
   @override
@@ -26,6 +41,11 @@ class _ReportState extends ConsumerState<Report> {
     final checkInOutList = ref.watch(checkInOutProvider);
     final hrsProviderNotifier = ref.watch(hrsProvider.notifier);
     final hrs = ref.watch(hrsProvider).hrs;
+    final startDate = ref.watch(hrsProvider).startDate;
+    final endDate = startDate.add(Duration(days: 6));
+
+    formattedStartDate = DateFormat('dd/MM/yyyy').format(startDate);
+    formattedEndDate = DateFormat('dd/MM/yyyy').format(endDate);
 
     return Scaffold(
       appBar: AppBar(
@@ -37,86 +57,25 @@ class _ReportState extends ConsumerState<Report> {
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
-            IconButton(
-              icon: Icon(Icons.person),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => UserList()),
-                );
-              },
-            ),
           ],
         ),
       ),
       body: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              SizedBox(
-                width: 160,
-                height: 110,
-                child: Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          AppLocalizations.of(context)!.totalTime,
-                          style: TextStyle(fontSize: 12, color: Colors.grey),
-                        ),
-                        const SizedBox(height: 8),
-                        const Text(
-                          '66:50:00',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                width: 160,
-                height: 110,
-                child: Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          AppLocalizations.of(context)!.averageTime,
-                          style: TextStyle(fontSize: 12, color: Colors.grey),
-                        ),
-                        const SizedBox(height: 8),
-                        const Text(
-                          '56:00:00',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
           SizedBox(
             width: 340,
-            height: 290,
+            height: 320,
             child: Card(
               child: Padding(
                 padding: const EdgeInsets.all(20),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
+                    Text(
+                      AppLocalizations.of(context)!.summaryReport,
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    ),
                     Row(
                       children: <Widget>[
                         IconButton(
@@ -124,21 +83,49 @@ class _ReportState extends ConsumerState<Report> {
                           onPressed: () {
                             setState(() {
                               hrsProviderNotifier.setPreviousWeek();
+                              _updateCheckInOutList(
+                                  ref.read(hrsProvider).startDate,
+                                  ref
+                                      .read(hrsProvider)
+                                      .startDate
+                                      .add(Duration(days: 6)));
                             });
                           },
                         ),
-                        Spacer(),
                         Text(
-                          AppLocalizations.of(context)!.summaryReport,
+                          formattedStartDate,
                           style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 20),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 17,
+                          ),
                         ),
                         Spacer(),
+                        Text(
+                          '-',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 17,
+                          ),
+                        ),
+                        Spacer(),
+                        Text(
+                          formattedEndDate,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 17,
+                          ),
+                        ),
                         IconButton(
                           icon: Icon(Icons.arrow_forward_rounded),
                           onPressed: () {
                             setState(() {
                               hrsProviderNotifier.setCurrentWeek();
+                              _updateCheckInOutList(
+                                  ref.read(hrsProvider).startDate,
+                                  ref
+                                      .read(hrsProvider)
+                                      .startDate
+                                      .add(Duration(days: 6)));
                             });
                           },
                         ),
@@ -166,100 +153,103 @@ class _ReportState extends ConsumerState<Report> {
                     itemCount: checkInOutList.length,
                     itemBuilder: (context, index) {
                       final checkInOut = checkInOutList[index];
-                      return SizedBox(
-                        width: 300,
-                        height: 130,
-                        child: Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(20),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      '${checkInOut['title']}',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                    Text(
-                                      '${checkInOut['hours'] != null ? checkInOut['hours'] : 'Absent'}',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    IconButton(
-                                      icon: CircleAvatar(
-                                        backgroundImage: NetworkImage(
-                                          'https://img.freepik.com/free-photo/young-beautiful-woman-pink-warm-sweater-natural-look-smiling-portrait-isolated-long-hair_285396-896.jpg',
+                      String checkin = checkInOut['checkin'] ?? '--:--:--';
+                      String checkout = checkInOut['checkout'] ?? '--:--:--';
+                      String hours = checkInOut['hours'] ?? 'Absent';
+                      Color hoursColor = (hours == 'Absent' || hours == 'Weekend')
+                          ? Colors.red
+                          : Color.fromARGB(255, 15, 8, 3);
+
+                      return Center(
+                        child: SizedBox(
+                          width: 340,
+                          height: 130,
+                          child: Card(
+                            child: Padding(
+                              padding: const EdgeInsets.all(20),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        DateFormat('EEEE, dd MMMM').format(
+                                            DateTime.parse(checkInOut['date'])),
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18,
                                         ),
                                       ),
-                                      onPressed: () {},
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Text(
-                                          AppLocalizations.of(context)!.checkin,
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Color.fromARGB(
-                                                255, 177, 178, 178),
-                                          ),
-                                        ),
-                                        Text(
-                                          '${checkInOut['checkin'] != null ? checkInOut['checkin'] : '00:00:00'}',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    IconButton(
-                                      icon: CircleAvatar(
-                                        backgroundImage: NetworkImage(
-                                          'https://img.freepik.com/free-photo/young-beautiful-woman-pink-warm-sweater-natural-look-smiling-portrait-isolated-long-hair_285396-896.jpg',
+                                      Text(
+                                        hours,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18,
+                                          color: hoursColor,
                                         ),
                                       ),
-                                      onPressed: () {},
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Text(
-                                          AppLocalizations.of(context)!
-                                              .checkout,
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.grey,
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      IconButton(
+                                        icon: CircleAvatar(
+                                          backgroundImage: NetworkImage(
+                                            'https://img.freepik.com/free-photo/young-beautiful-woman-pink-warm-sweater-natural-look-smiling-portrait-isolated-long-hair_285396-896.jpg',
                                           ),
                                         ),
-                                        Text(
-                                          '${checkInOut['checkout'] != null ? checkInOut['checkout'] : '00:00:00'}',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20,
+                                        onPressed: () {},
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            AppLocalizations.of(context)!.checkin,
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              color: Color.fromARGB(
+                                                  255, 177, 178, 178),
+                                            ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                          Text(
+                                            checkin,
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 20,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            AppLocalizations.of(context)!.checkout,
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              color: Color.fromARGB(
+                                                  255, 177, 178, 178),
+                                            ),
+                                          ),
+                                          Text(
+                                            checkout,
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 20,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),

@@ -37,5 +37,16 @@
     "checkout": "Départ",
     "record": "Aucun enregistrement d'entrée/sortie disponible",
     "norecords": "Aucun enregistrement trouvé",
-    "norecordsnow": "Il n'y a aucun enregistrement à afficher pour le moment."
+    "norecordsnow": "Il n'y a aucun enregistrement à afficher pour le moment.",
+    "productdesigner":"Concepteur de produit",
+    "employeeid":"Identifiant de l'employé",
+    "close":"FERMER",
+    "logout":"DÉCONNEXION",
+    "instruction":"INSTRUCTIONS GÉNÉRALES POUR LES EMPLOYÉS",
+    "step": "Étape 1 : Les employés doivent effectuer à la fois l'enregistrement et la sortie quotidiennement.",
+    "steps": "Étape 2 : L'historique des enregistrements est affiché dans les dossiers, et les utilisateurs peuvent les consulter à l'aide d'un diagramme en barres. Les utilisateurs qui n'effectuent pas d'enregistrement d'entrée et de sortie sont considérés comme absents.",
+    "stepss": "Étape 3 : Si un utilisateur oublie de faire l'enregistrement d'entrée, il peut soumettre une régularisation pour avoir oublié l'enregistrement d'entrée.",
+    "stepsss": "Étape 4 : Si un utilisateur fait l'enregistrement d'entrée mais oublie de faire l'enregistrement de sortie un jour donné, il peut soumettre une régularisation pour avoir oublié l'enregistrement de sortie.",
+    "stepssss": "Étape 5 : Une seule régularisation peut être soumise par jour.",
+    "language": "Sélection de la langue"
 }

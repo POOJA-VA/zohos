@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:zoho/src/presentation/views/User/Approvals.dart';
 import 'package:zoho/src/presentation/views/User/Body.dart';
+import 'package:zoho/src/presentation/views/User/Regularisation.dart';
 import 'package:zoho/src/presentation/views/User/Report.dart';
-import 'package:zoho/src/presentation/views/User/UserLocation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Home extends StatefulWidget {
@@ -19,7 +19,7 @@ class _HomeState extends State<Home> {
     Body(),
     Report(),
     Approvals(role: "User",),
-    LocationPage(),
+    Regular(),
   ];
 
   void _onItemTapped(int index) {
@@ -58,8 +58,8 @@ class _HomeState extends State<Home> {
             backgroundColor: Color.fromARGB(218, 71, 167, 163),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.location_on_sharp),
-            label: AppLocalizations.of(context)!.location,
+            icon: Icon(Icons.add_sharp),
+            label: AppLocalizations.of(context)!.regular,
             backgroundColor: Color.fromARGB(218, 71, 167, 163),
           ),
         ],
