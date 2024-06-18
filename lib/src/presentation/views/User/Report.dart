@@ -49,6 +49,7 @@ class _ReportState extends ConsumerState<Report> {
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Row(
           children: [
             Expanded(

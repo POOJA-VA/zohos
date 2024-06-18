@@ -48,5 +48,7 @@
     "stepss": "Étape 3 : Si un utilisateur oublie de faire l'enregistrement d'entrée, il peut soumettre une régularisation pour avoir oublié l'enregistrement d'entrée.",
     "stepsss": "Étape 4 : Si un utilisateur fait l'enregistrement d'entrée mais oublie de faire l'enregistrement de sortie un jour donné, il peut soumettre une régularisation pour avoir oublié l'enregistrement de sortie.",
     "stepssss": "Étape 5 : Une seule régularisation peut être soumise par jour.",
-    "language": "Sélection de la langue"
+    "language": "Sélection de la langue",
+    "hours": "Heures",
+    "reason": "Raison"
 }

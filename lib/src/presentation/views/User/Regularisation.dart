@@ -101,6 +101,7 @@ class _RegularState extends ConsumerState<Regular> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text(
           AppLocalizations.of(context)!.regularization,
           style: TextStyle(fontWeight: FontWeight.bold),
@@ -369,4 +370,5 @@ class _RegularState extends ConsumerState<Regular> {
       ),
     );
   }
-}
+}   
+

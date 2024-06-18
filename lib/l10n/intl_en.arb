@@ -48,5 +48,7 @@
     "stepss":"step 3: If a user fails to checkin, they can raise regularization for forgetting to checkin.",
     "stepsss":"step 4: If a user checksin but forgets to checkout on a particular day, they can raise regularization for forgetting to checkout.",
     "stepssss":"step 5: Only one regularization can be raised per day.",
-    "language":"Language Selection"
+    "language":"Language Selection",
+    "hours":"Hours",
+    "reason":"Reason"
 }

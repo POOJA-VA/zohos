@@ -46,7 +46,8 @@ class Pending extends ConsumerWidget {
         itemBuilder: (context, index) {
           final regularizationData = pendingList[index];
           final dateFormat = DateFormat('yyyy-MM-dd');
-          final formattedDate = dateFormat.format(DateTime.parse(regularizationData.date));
+          final formattedDate =
+              dateFormat.format(DateTime.parse(regularizationData.date));
 
           return Center(
             child: SizedBox(
@@ -73,7 +74,7 @@ class Pending extends ConsumerWidget {
                         ],
                       ),
                       Text(
-                        'Date: $formattedDate',
+                        '${AppLocalizations.of(context)!.date}: $formattedDate',
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.grey,
@@ -173,4 +174,3 @@ class Pending extends ConsumerWidget {
     }
   }
 }
-

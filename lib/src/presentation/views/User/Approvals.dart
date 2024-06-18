@@ -19,16 +19,22 @@ class _ApprovalsState extends State<Approvals>
   @override
   void initState() {
     super.initState();
-    _tabController = new TabController(length: 3, vsync: this, initialIndex: 1);
+    _tabController = TabController(length: 3, vsync: this, initialIndex: 1);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: widget.role == "User" ? Text(AppLocalizations.of(context)!.approvals,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25)): Text(""),
-        bottom: TabBar(
+    return Column(
+      children: [
+        if (widget.role == "User")
+          AppBar(
+            automaticallyImplyLeading: false,
+            title: Text(
+              AppLocalizations.of(context)!.approvals,
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+            ),
+          ),
+        TabBar(
           controller: _tabController,
           tabs: <Widget>[
             Tab(
@@ -42,12 +48,17 @@ class _ApprovalsState extends State<Approvals>
             ),
           ],
         ),
-      ),
-      body: TabBarView(controller: _tabController,children: <Widget>[
-        Pending(selectedDropdownValue: '', role: widget.role,),
-        Approved(),
-        Rejected(),
-      ]),
+        Expanded(
+          child: TabBarView(
+            controller: _tabController,
+            children: <Widget>[
+              Pending(selectedDropdownValue: '', role: widget.role),
+              Approved(),
+              Rejected(),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

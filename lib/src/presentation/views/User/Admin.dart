@@ -13,12 +13,14 @@ class Admin extends StatelessWidget {
   Widget build(BuildContext context) {
     DateTime now = DateTime.now();
     String formattedDate = DateFormat('EEE, dd MMM').format(now);
+
     return ChangeNotifierProvider.value(
       value: checkInProvider,
       child: Consumer<CheckInProvider>(
         builder: (context, checkInProvider, _) {
           return Scaffold(
             appBar: AppBar(
+              automaticallyImplyLeading: false,
               title: Text(
                 AppLocalizations.of(context)!.welcomeAdmin,
                 style: TextStyle(fontWeight: FontWeight.bold),
@@ -56,12 +58,10 @@ class Admin extends StatelessWidget {
                                 height: 20,
                               ),
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Text(
                                         'Date',
@@ -80,8 +80,7 @@ class Admin extends StatelessWidget {
                                     ],
                                   ),
                                   Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Text(
                                         'Admin Id',
@@ -103,8 +102,7 @@ class Admin extends StatelessWidget {
                               ),
                               SizedBox(height: 20),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment
-                                    .spaceEvenly, // Adjust alignment as needed
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
                                   SizedBox(
                                     height: 40,
@@ -114,23 +112,18 @@ class Admin extends StatelessWidget {
                                         Navigator.pushReplacement(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (context) =>
-                                                  LoginScreen()),
+                                              builder: (context) => LoginScreen()),
                                         );
                                       },
                                       style: ElevatedButton.styleFrom(
-                                        backgroundColor:
-                                            Color.fromARGB(255, 75, 195, 255),
+                                        backgroundColor: Color.fromARGB(255, 75, 195, 255),
                                         shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(50),
+                                          borderRadius: BorderRadius.circular(50),
                                         ),
                                       ),
                                       child: Text(
                                         AppLocalizations.of(context)!.logout,
-                                        style: TextStyle(
-                                            color: Colors
-                                                .white),
+                                        style: TextStyle(color: Colors.white),
                                       ),
                                     ),
                                   ),
@@ -142,19 +135,14 @@ class Admin extends StatelessWidget {
                                         Navigator.pop(context);
                                       },
                                       style: OutlinedButton.styleFrom(
-                                        side: BorderSide(
-                                            color: Color.fromARGB(
-                                                255, 75, 195, 255)),
+                                        side: BorderSide(color: Color.fromARGB(255, 75, 195, 255)),
                                         shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(50),
+                                          borderRadius: BorderRadius.circular(50),
                                         ),
                                       ),
                                       child: Text(
                                         AppLocalizations.of(context)!.close,
-                                        style: TextStyle(
-                                            color: Color.fromARGB(255, 75, 195,
-                                                255)), // Set text color to white
+                                        style: TextStyle(color: Color.fromARGB(255, 75, 195, 255)), // Set text color to white
                                       ),
                                     ),
                                   ),
@@ -169,12 +157,14 @@ class Admin extends StatelessWidget {
                 },
               ),
             ),
-            body: Approvals(
-              role: "Admin",
+            body: SafeArea(
+              child: Approvals(
+                role: "Admin",
+              ),
             ),
           );
         },
       ),
     );
   }
-}  
+}
