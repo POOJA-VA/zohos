@@ -4,7 +4,7 @@ import 'package:lottie/lottie.dart';
 import 'package:zoho/src/data/datasource/local/sqflite.dart';
 import 'package:zoho/src/presentation/provider/loginProvider.dart';
 import 'package:zoho/src/presentation/views/User/Admin.dart';
-import 'package:zoho/src/presentation/views/User/Home.dart';
+import 'package:zoho/src/presentation/widgets/BottomNavigationBar.dart';
 import 'package:zoho/src/presentation/views/User/signUp.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 

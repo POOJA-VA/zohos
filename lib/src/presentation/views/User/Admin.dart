@@ -3,8 +3,10 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:zoho/src/presentation/provider/changeNotifer.dart';
 import 'package:zoho/src/presentation/views/User/Approvals.dart';
+import 'package:zoho/src/presentation/views/User/UserList.dart';
 import 'package:zoho/src/presentation/views/User/login.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:zoho/src/presentation/widgets/AdminDropdown.dart';
 
 class Admin extends StatelessWidget {
   final CheckInProvider checkInProvider = CheckInProvider();
@@ -58,10 +60,12 @@ class Admin extends StatelessWidget {
                                 height: 20,
                               ),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Text(
                                         'Date',
@@ -80,7 +84,8 @@ class Admin extends StatelessWidget {
                                     ],
                                   ),
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Text(
                                         'Admin Id',
@@ -102,7 +107,8 @@ class Admin extends StatelessWidget {
                               ),
                               SizedBox(height: 20),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   SizedBox(
                                     height: 40,
@@ -112,13 +118,16 @@ class Admin extends StatelessWidget {
                                         Navigator.pushReplacement(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (context) => LoginScreen()),
+                                              builder: (context) =>
+                                                  LoginScreen()),
                                         );
                                       },
                                       style: ElevatedButton.styleFrom(
-                                        backgroundColor: Color.fromARGB(255, 75, 195, 255),
+                                        backgroundColor:
+                                            Color.fromARGB(255, 75, 195, 255),
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(50),
+                                          borderRadius:
+                                              BorderRadius.circular(50),
                                         ),
                                       ),
                                       child: Text(
@@ -135,14 +144,19 @@ class Admin extends StatelessWidget {
                                         Navigator.pop(context);
                                       },
                                       style: OutlinedButton.styleFrom(
-                                        side: BorderSide(color: Color.fromARGB(255, 75, 195, 255)),
+                                        side: BorderSide(
+                                            color: Color.fromARGB(
+                                                255, 75, 195, 255)),
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(50),
+                                          borderRadius:
+                                              BorderRadius.circular(50),
                                         ),
                                       ),
                                       child: Text(
                                         AppLocalizations.of(context)!.close,
-                                        style: TextStyle(color: Color.fromARGB(255, 75, 195, 255)), // Set text color to white
+                                        style: TextStyle(
+                                            color: Color.fromARGB(255, 75, 195,
+                                                255)), // Set text color to white
                                       ),
                                     ),
                                   ),
@@ -156,6 +170,26 @@ class Admin extends StatelessWidget {
                   );
                 },
               ),
+              actions: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.person), // Search icon
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const UserList()),
+                    );
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.info), // Search icon
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const AdminLanguage()),
+                    );
+                  },
+                ),
+              ],
             ),
             body: SafeArea(
               child: Approvals(

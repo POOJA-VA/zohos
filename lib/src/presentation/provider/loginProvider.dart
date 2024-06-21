@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:zoho/src/data/datasource/local/sqflite.dart';
 import 'package:zoho/src/data/repository/login.dart';
-import 'package:zoho/src/domain/repository/repository.dart';
+import 'package:zoho/src/domain/repository/login.dart';
 
 final authProvider = StateNotifierProvider<AuthNotifier, bool>((ref) {
   return AuthNotifier(ref.read(projectRepositoryProvider));

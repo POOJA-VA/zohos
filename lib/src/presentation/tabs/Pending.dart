@@ -54,7 +54,7 @@ class Pending extends ConsumerWidget {
               width: 340,
               height: role == "Admin"
                   ? 220
-                  : 180, // Adjust height based on role and tab
+                  : 170, // Adjust height based on role and tab
               child: Card(
                 child: Padding(
                   padding: const EdgeInsets.all(20),
@@ -81,28 +81,28 @@ class Pending extends ConsumerWidget {
                         ),
                       ),
                       Text(
-                        'Check-In Time: ${regularizationData.checkInTime.hour.toString().padLeft(2, '0')}:${regularizationData.checkInTime.minute.toString().padLeft(2, '0')}',
+                        '${AppLocalizations.of(context)!.checkin}: ${regularizationData.checkInTime.hour.toString().padLeft(2, '0')}:${regularizationData.checkInTime.minute.toString().padLeft(2, '0')}',
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.grey,
                         ),
                       ),
                       Text(
-                        'Check-Out Time: ${regularizationData.checkOutTime.hour.toString().padLeft(2, '0')}:${regularizationData.checkOutTime.minute.toString().padLeft(2, '0')}',
+                        '${AppLocalizations.of(context)!.checkout}: ${regularizationData.checkOutTime.hour.toString().padLeft(2, '0')}:${regularizationData.checkOutTime.minute.toString().padLeft(2, '0')}',
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.grey,
                         ),
                       ),
                       Text(
-                        'Hours: ${regularizationData.hours}',
+                        '${AppLocalizations.of(context)!.hours}: ${regularizationData.hours}',
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.grey,
                         ),
                       ),
                       Text(
-                        'Reason: ${regularizationData.dropdownValue}',
+                        '${AppLocalizations.of(context)!.reason}: ${regularizationData.dropdownValue}',
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.grey,

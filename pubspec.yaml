@@ -81,6 +81,11 @@ flutter:
     - assets/register.json
     - assets/home.json
     - assets/location.json
+    - assets/image/home.png
+    - assets/image/regular.png
+    - assets/image/report.png
+    - assets/image/add regular.png
+
 
   # To add assets to your application, add an assets section, like this:
   # assets:

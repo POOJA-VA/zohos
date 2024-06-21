@@ -1,6 +1,6 @@
 import 'package:zoho/src/data/datasource/local/sqflite.dart';
 import 'package:zoho/src/domain/Modal/regularization.dart';
-import 'package:zoho/src/domain/repository/repository.dart';
+import 'package:zoho/src/domain/repository/login.dart';
 
 class DatabaseProjectRepository implements ProjectRepository {
   final ProjectDataSource _dataSource;

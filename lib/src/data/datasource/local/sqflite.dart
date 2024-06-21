@@ -1,8 +1,8 @@
 import 'package:intl/intl.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:zoho/src/domain/repository/login.dart';
 import 'package:zoho/src/domain/Modal/regularization.dart';
-import 'package:zoho/src/domain/repository/repository.dart';
 
 class ProjectDataSource implements ProjectRepository {
   final String databaseName = "zohos.db";

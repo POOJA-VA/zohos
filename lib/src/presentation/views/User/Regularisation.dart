@@ -4,7 +4,6 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:zoho/src/domain/Modal/regularization.dart';
 import 'package:zoho/src/presentation/provider/regularProvider.dart';
-import 'package:zoho/src/presentation/tabs/Pending.dart';
 
 class Regular extends ConsumerStatefulWidget {
   const Regular({Key? key}) : super(key: key);
@@ -26,7 +25,26 @@ class _RegularState extends ConsumerState<Regular> {
     selectedDate = DateTime(now.year, now.month, now.day);
   }
 
-  Future<void> _selectDateTime(BuildContext context, String choose) async {
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime now = DateTime.now();
+    final DateTime firstDateOfMonth = DateTime(now.year, now.month, 1);
+    final DateTime lastDate = DateTime(now.year, now.month, now.day);
+
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: firstDateOfMonth,
+      lastDate: lastDate,
+    );
+
+    if (pickedDate != null && pickedDate != selectedDate) {
+      setState(() {
+        selectedDate = pickedDate;
+      });
+    }
+  }
+
+  Future<void> _selectTime(BuildContext context, String choose) async {
     if (choose == 'in' && checkInTime != null) {
       _showError(context, 'Check-in already set for the day');
       return;
@@ -36,31 +54,18 @@ class _RegularState extends ConsumerState<Regular> {
       return;
     }
 
-    final DateTime? pickedDate = await showDatePicker(
+    final TimeOfDay? pickedTime = await showTimePicker(
       context: context,
-      initialDate: selectedDate,
-      firstDate: DateTime(DateTime.now().year, DateTime.now().month),
-      lastDate: DateTime.now(),
+      initialTime: TimeOfDay.now(),
     );
-    if (pickedDate != null) {
+    if (pickedTime != null) {
       setState(() {
-        selectedDate = pickedDate;
+        if (choose == "in") {
+          checkInTime = pickedTime;
+        } else if (choose == 'out' && checkInTime != null) {
+          checkOutTime = pickedTime;
+        }
       });
-    }
-    if (pickedDate != null && choose != "Date") {
-      final TimeOfDay? pickedTime = await showTimePicker(
-        context: context,
-        initialTime: TimeOfDay(hour: 19, minute: 30),
-      );
-      if (pickedTime != null) {
-        setState(() {
-          if (choose == "in") {
-            checkInTime = pickedTime;
-          } else if (choose == 'out' && checkInTime != null) {
-            checkOutTime = pickedTime;
-          }
-        });
-      }
     }
   }
 
@@ -82,13 +87,9 @@ class _RegularState extends ConsumerState<Regular> {
     });
   }
 
-  final List<String> items = [
-    'Forgot to Check-in',
-    'Forgot to Check-out',
-  ];
-
   Future<bool> _canSubmitRegularization() async {
-    final List<RegularizationData> regularizations = ref.read(regularizationProvider);
+    final List<RegularizationData> regularizations =
+        ref.read(regularizationProvider);
     for (var regularization in regularizations) {
       if (regularization.date == selectedDate.toString()) {
         return false;
@@ -99,9 +100,12 @@ class _RegularState extends ConsumerState<Regular> {
 
   @override
   Widget build(BuildContext context) {
+    final List<String> items = [
+      AppLocalizations.of(context)!.forgottocheckin,
+      AppLocalizations.of(context)!.forgottocheckout,
+    ];
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
         title: Text(
           AppLocalizations.of(context)!.regularization,
           style: TextStyle(fontWeight: FontWeight.bold),
@@ -166,7 +170,7 @@ class _RegularState extends ConsumerState<Regular> {
                         ),
                         IconButton(
                           onPressed: () {
-                            _selectDateTime(context, "Date");
+                            _selectDate(context);
                           },
                           icon: Icon(Icons.arrow_forward_ios_outlined,
                               color: Colors.lightBlueAccent),
@@ -192,32 +196,34 @@ class _RegularState extends ConsumerState<Regular> {
                           children: <Widget>[
                             TextButton(
                               onPressed: () {
-                                _selectDateTime(context, "in");
+                                _selectTime(context, "in");
                               },
                               child: Text(
-                                'Check-in\n${selectedDate.day}-${selectedDate.month}-${selectedDate.year} \n${checkInTime?.format(context) ?? '--:--'}',
+                                '${AppLocalizations.of(context)!.checkin}\n${selectedDate.day}-${selectedDate.month}-${selectedDate.year} \n${checkInTime?.format(context) ?? '--:--'}',
                                 style: TextStyle(
                                     fontSize: 15, color: Colors.green),
                               ),
                             ),
                             TextButton(
                               onPressed: () {
-                                _selectDateTime(context, "out");
+                                _selectTime(context, "out");
                               },
                               child: Text(
-                                'Check-out\n${selectedDate.day}-${selectedDate.month}-${selectedDate.year} \n${checkOutTime?.format(context) ?? '--:--'}',
-                                style: TextStyle(
-                                    fontSize: 15, color: Colors.red),
+                                '${AppLocalizations.of(context)!.checkout}\n${selectedDate.day}-${selectedDate.month}-${selectedDate.year} \n${checkOutTime?.format(context) ?? '--:--'}',
+                                style:
+                                    TextStyle(fontSize: 15, color: Colors.red),
                               ),
                             ),
                             Text(
-                              '${checkInTime != null && checkOutTime != null ? checkOutTime!.hour - checkInTime!.hour : 0}\n Hr(s)',
+                              '${checkInTime != null && checkOutTime != null ? (checkOutTime!.hour - checkInTime!.hour >= 0 ? checkOutTime!.hour - checkInTime!.hour : 0) : 0}\n ${AppLocalizations.of(context)!.hrs}',
                               style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.bold),
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ],
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(height: 20),
                         Center(
                           child: Container(
                             width: 300,
@@ -230,7 +236,7 @@ class _RegularState extends ConsumerState<Regular> {
                               child: DropdownButton2<String>(
                                 isExpanded: true,
                                 hint: Text(
-                                  'Forgot to Check-in',
+                                  AppLocalizations.of(context)!.forgottocheckin,
                                   style: TextStyle(
                                       fontSize: 15,
                                       color: Theme.of(context).hintColor),
@@ -280,7 +286,7 @@ class _RegularState extends ConsumerState<Regular> {
                 ),
               ),
             ),
-            SizedBox(height: 90),
+            SizedBox(height: 120),
             Center(
               child: Container(
                 height: 50,
@@ -298,23 +304,20 @@ class _RegularState extends ConsumerState<Regular> {
                       },
                       style: TextButton.styleFrom(
                         backgroundColor: Colors.redAccent,
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 50, vertical: 15),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                       ),
                       child: Text(
                         AppLocalizations.of(context)!.cancel,
                         style: TextStyle(fontSize: 15, color: Colors.white),
                       ),
                     ),
-                    SizedBox(width: 20),
+                    SizedBox(width: 10),
                     TextButton(
                       onPressed: () async {
                         if (await _canSubmitRegularization()) {
-                          if (checkInTime != null &&
-                              checkOutTime != null &&
-                              (checkOutTime!.hour - checkInTime!.hour) > 0) {
-                            RegularizationData regularizationData =
-                                RegularizationData(
+                          if (checkInTime != null && checkOutTime != null) {
+                            final regularizationData = RegularizationData(
                               employeeName: 'Santra Richards (EM-3445)',
                               date: selectedDate.toString(),
                               checkInTime: checkInTime!,
@@ -326,15 +329,6 @@ class _RegularState extends ConsumerState<Regular> {
                             ref
                                 .read(regularizationProvider.notifier)
                                 .insertRegularization(regularizationData);
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => Pending(
-                                  selectedDropdownValue: selectedValue!,
-                                  role: "User",
-                                ),
-                              ),
-                            );
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: const Text(
@@ -353,8 +347,8 @@ class _RegularState extends ConsumerState<Regular> {
                       },
                       style: TextButton.styleFrom(
                         backgroundColor: Colors.green,
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 50, vertical: 15),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                       ),
                       child: Text(
                         AppLocalizations.of(context)!.submit,
@@ -370,5 +364,4 @@ class _RegularState extends ConsumerState<Regular> {
       ),
     );
   }
-}   
-
+}

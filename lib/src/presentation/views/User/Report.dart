@@ -14,7 +14,6 @@ class Report extends ConsumerStatefulWidget {
 }
 
 class _ReportState extends ConsumerState<Report> {
-  
   late String formattedStartDate;
   late String formattedEndDate;
 
@@ -155,11 +154,18 @@ class _ReportState extends ConsumerState<Report> {
                     itemBuilder: (context, index) {
                       final checkInOut = checkInOutList[index];
                       String checkin = checkInOut['checkin'] ?? '--:--:--';
+                      Color checkinColor = (checkin == '--:--:--')
+                          ? const Color.fromARGB(255, 206, 203, 203)
+                          : Color.fromARGB(255, 6, 5, 5);
                       String checkout = checkInOut['checkout'] ?? '--:--:--';
+                      Color checkoutColor = (checkout == '--:--:--')
+                          ? const Color.fromARGB(255, 206, 203, 203)
+                          : Color.fromARGB(255, 6, 5, 5);
                       String hours = checkInOut['hours'] ?? 'Absent';
-                      Color hoursColor = (hours == 'Absent' || hours == 'Weekend')
-                          ? Colors.red
-                          : Color.fromARGB(255, 15, 8, 3);
+                      Color hoursColor =
+                          (hours == 'Absent' || hours == 'Weekend')
+                              ? Colors.red
+                              : const Color.fromARGB(255, 15, 8, 3);
 
                       return Center(
                         child: SizedBox(
@@ -194,8 +200,7 @@ class _ReportState extends ConsumerState<Report> {
                                     ],
                                   ),
                                   Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       IconButton(
                                         icon: CircleAvatar(
@@ -205,12 +210,14 @@ class _ReportState extends ConsumerState<Report> {
                                         ),
                                         onPressed: () {},
                                       ),
+                                      SizedBox(width: 15),
                                       Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: <Widget>[
                                           Text(
-                                            AppLocalizations.of(context)!.checkin,
+                                            AppLocalizations.of(context)!
+                                                .checkin,
                                             style: TextStyle(
                                               fontSize: 14,
                                               color: Color.fromARGB(
@@ -222,16 +229,19 @@ class _ReportState extends ConsumerState<Report> {
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 20,
+                                              color: checkinColor,
                                             ),
                                           ),
                                         ],
                                       ),
+                                      SizedBox(width: 50),
                                       Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: <Widget>[
                                           Text(
-                                            AppLocalizations.of(context)!.checkout,
+                                            AppLocalizations.of(context)!
+                                                .checkout,
                                             style: TextStyle(
                                               fontSize: 14,
                                               color: Color.fromARGB(
@@ -243,6 +253,7 @@ class _ReportState extends ConsumerState<Report> {
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 20,
+                                              color: checkoutColor,
                                             ),
                                           ),
                                         ],

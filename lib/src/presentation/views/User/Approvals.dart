@@ -3,6 +3,7 @@ import 'package:zoho/src/presentation/tabs/Approved.dart';
 import 'package:zoho/src/presentation/tabs/Pending.dart';
 import 'package:zoho/src/presentation/tabs/Rejected.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:zoho/src/presentation/views/User/Regularisation.dart';
 
 class Approvals extends StatefulWidget {
   const Approvals({super.key, required this.role});
@@ -33,6 +34,17 @@ class _ApprovalsState extends State<Approvals>
               AppLocalizations.of(context)!.approvals,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
             ),
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(Icons.add), // Search icon
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Regular()),
+                  );
+                },
+              ),
+            ],
           ),
         TabBar(
           controller: _tabController,

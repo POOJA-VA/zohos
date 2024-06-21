@@ -45,7 +45,7 @@ class Rejected extends ConsumerWidget {
           return Center(
               child: SizedBox(
             width: 340,
-            height: 180,
+            height: 170,
             child: Card(
               child: Padding(
                 padding: const EdgeInsets.all(20),
@@ -65,35 +65,35 @@ class Rejected extends ConsumerWidget {
                       ],
                     ),
                     Text(
-                      'Date: $formattedDate',
+                      '${AppLocalizations.of(context)!.date}: $formattedDate',
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.grey,
                       ),
                     ),
                     Text(
-                      'Check-In Time: ${regularizationData.checkInTime.hour.toString().padLeft(2, '0')}:${regularizationData.checkInTime.minute.toString().padLeft(2, '0')}',
+                      '${AppLocalizations.of(context)!.checkin}: ${regularizationData.checkInTime.hour.toString().padLeft(2, '0')}:${regularizationData.checkInTime.minute.toString().padLeft(2, '0')}',
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.grey,
                       ),
                     ),
                     Text(
-                      'Check-Out Time: ${regularizationData.checkOutTime.hour.toString().padLeft(2, '0')}:${regularizationData.checkOutTime.minute.toString().padLeft(2, '0')}',
+                      '${AppLocalizations.of(context)!.checkout}: ${regularizationData.checkOutTime.hour.toString().padLeft(2, '0')}:${regularizationData.checkOutTime.minute.toString().padLeft(2, '0')}',
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.grey,
                       ),
                     ),
                     Text(
-                      'Hours: ${regularizationData.hours}',
+                      '${AppLocalizations.of(context)!.hours}: ${regularizationData.hours}',
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.grey,
                       ),
                     ),
                     Text(
-                      'Reason: ${regularizationData.dropdownValue}',
+                      '${AppLocalizations.of(context)!.reason}: ${regularizationData.dropdownValue}',
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.grey,

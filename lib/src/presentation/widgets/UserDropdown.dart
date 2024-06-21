@@ -22,6 +22,8 @@ class _LanguageState extends ConsumerState<Language> {
       const Locale('en'),
       const Locale('tr'),
       const Locale('fr'),
+      const Locale('ja'),
+      const Locale('hi'),
     ];
   }
 
@@ -32,6 +34,10 @@ class _LanguageState extends ConsumerState<Language> {
       return 'Tr';
     } else if (locale.languageCode == 'fr') {
       return 'Fr';
+    } else if (locale.languageCode == 'ja') {
+      return 'Ja';
+    } else if (locale.languageCode == 'hi') {
+      return 'Hi';
     }
     return '';
   }

@@ -12,6 +12,7 @@ class UserList extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
+        // automaticallyImplyLeading: false,
         title: Text(AppLocalizations.of(context)!.userlist),
       ),
       body: ListView.builder(
@@ -31,14 +32,13 @@ class UserList extends ConsumerWidget {
           );
         },
       ),
-      floatingActionButton: SizedBox(
-        width: 150,
-        height: 50,
-        child: FloatingActionButton(
-          onPressed: () => ref.read(userListProvider.notifier).fetchUsers(),
-          child: Text(AppLocalizations.of(context)!.showusers),
-        ),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     ref.read(userListProvider.notifier).fetchUsers();
+      //   },
+      //   backgroundColor: Color.fromARGB(218, 71, 167, 163),
+      //   child: Icon(Icons.refresh),
+      // ),
     );
   }
 }

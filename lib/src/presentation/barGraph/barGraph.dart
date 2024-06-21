@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:zoho/src/presentation/barGraph/barData.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BarGraph extends StatelessWidget {
   final List weeklySummary;
@@ -19,6 +20,7 @@ class BarGraph extends StatelessWidget {
       satAmount: weeklySummary[6],
     );
     myBarData.initializeBarData();
+
     return BarChart(
       BarChartData(
         maxY: 24,
@@ -31,63 +33,60 @@ class BarGraph extends StatelessWidget {
           leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
           rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
           bottomTitles: AxisTitles(
-            sideTitles:
-                SideTitles(showTitles: true, getTitlesWidget: getBottomTitles),
+            sideTitles: SideTitles(
+              showTitles: true,
+              getTitlesWidget: (value, meta) => getBottomTitles(context, value),
+            ),
           ),
         ),
-        barGroups: myBarData.barData.map((data) => BarChartGroupData(
-              x: data.x,
-              barRods: [
-                BarChartRodData(
-                  toY: data.y,
-                  color: Color.fromARGB(218, 71, 167, 163),
-                  width: 25,
-                  borderRadius: BorderRadius.circular(4),
-                  backDrawRodData: BackgroundBarChartRodData(
-                      show: true, toY: 24, color: Color.fromARGB(255, 221, 217, 217)),
-                ),
-              ],
-            ),
-        )
-        .toList(),
+        barGroups: myBarData.barData
+            .map(
+              (data) => BarChartGroupData(
+                x: data.x,
+                barRods: [
+                  BarChartRodData(
+                    toY: data.y,
+                    color: Color.fromARGB(218, 71, 167, 163),
+                    width: 25,
+                    borderRadius: BorderRadius.circular(4),
+                    backDrawRodData: BackgroundBarChartRodData(
+                      show: true,
+                      toY: 24,
+                      color: Color.fromARGB(255, 221, 217, 217),
+                    ),
+                  ),
+                ],
+              ),
+            )
+            .toList(),
       ),
     );
   }
-}
 
-Widget getBottomTitles(double value, TitleMeta meta) {
-  const style = TextStyle(
-    color: Color.fromARGB(218, 71, 167, 163),
-    fontWeight: FontWeight.bold,
-    fontSize: 14,
-  );
+  Widget getBottomTitles(BuildContext context, double value) {
+    final style = TextStyle(
+      color: Color.fromARGB(218, 71, 167, 163),
+      fontWeight: FontWeight.bold,
+      fontSize: 14,
+    );
 
-  Widget text;
-  switch (value.toInt()) {
-    case 0:
-      text = const Text('MON', style: style);
-      break;
-    case 1:
-      text = const Text('TUE', style: style);
-      break;
-    case 2:
-      text = const Text('WED', style: style);
-      break;
-    case 3:
-      text = const Text('THU', style: style);
-      break;
-    case 4:
-      text = const Text('FRI', style: style);
-      break;
-    case 5:
-      text = const Text('SAT', style: style);
-      break;
-    case 6:
-      text = const Text('SUN', style: style);
-      break;
-    default:
-      text = const Text('', style: style);
-      break;
+    switch (value.toInt()) {
+      case 0:
+        return Text(AppLocalizations.of(context)!.monday, style: style);
+      case 1:
+        return Text(AppLocalizations.of(context)!.tuesday, style: style);
+      case 2:
+        return Text(AppLocalizations.of(context)!.wednesday, style: style);
+      case 3:
+        return Text(AppLocalizations.of(context)!.thurday, style: style);
+      case 4:
+        return Text(AppLocalizations.of(context)!.friday, style: style);
+      case 5:
+        return Text(AppLocalizations.of(context)!.saturday, style: style);
+      case 6:
+        return Text(AppLocalizations.of(context)!.sunday, style: style);
+      default:
+        return Text('', style: style);
+    }
   }
-  return text;
 }
